@@ -37,6 +37,76 @@
 			);
 			target = C73375F32DD939600087BC3A /* Cheers */;
 		};
+		C73376282DD9397D0087BC3A /* Exceptions for "Cheers" folder in "CheersTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Model/Brand.swift,
+				Model/Drink.swift,
+				Model/ModelUtilities.swift,
+				Model/PersistentModelExtensions.swift,
+				Model/SampleData.swift,
+				Model/Shelf.swift,
+				Model/Tasting.swift,
+				View/Brands/BrandCellView.swift,
+				View/Brands/BrandModView.swift,
+				View/Brands/BrandPicker.swift,
+				View/Brands/BrandView.swift,
+				View/Cabinet/CabinetHeaderView.swift,
+				View/Cabinet/CabinetPicker.swift,
+				View/Cabinet/CabinetsView.swift,
+				View/Components/FloatingMenu.swift,
+				View/Drinks/DrinkCellView.swift,
+				View/Drinks/DrinkModView.swift,
+				View/Drinks/DrinkView.swift,
+				View/InfoView.swift,
+				View/NavigationStateManager.swift,
+				View/Shelf/ShelfCellView.swift,
+				View/Shelf/ShelfModView.swift,
+				View/Shelf/ShelfPicker.swift,
+				View/Shelf/ShelfView.swift,
+				View/Shelf/ShelvesView.swift,
+				View/SidebarView.swift,
+				View/Tastings/TastingsView.swift,
+			);
+			target = C73376042DD939630087BC3A /* CheersTests */;
+		};
+		C73376292DD9397D0087BC3A /* Exceptions for "Cheers" folder in "CheersUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Model/Brand.swift,
+				Model/Drink.swift,
+				Model/ModelUtilities.swift,
+				Model/PersistentModelExtensions.swift,
+				Model/SampleData.swift,
+				Model/Shelf.swift,
+				Model/Tasting.swift,
+				View/Brands/BrandCellView.swift,
+				View/Brands/BrandModView.swift,
+				View/Brands/BrandPicker.swift,
+				View/Brands/BrandsView.swift,
+				View/Brands/BrandView.swift,
+				View/Cabinet/CabinetHeaderView.swift,
+				View/Cabinet/CabinetPicker.swift,
+				View/Cabinet/CabinetsView.swift,
+				View/CheersView.swift,
+				View/Components/FloatingButton.swift,
+				View/Components/FloatingMenu.swift,
+				View/Drinks/DrinkCellView.swift,
+				View/Drinks/DrinkModView.swift,
+				View/Drinks/DrinksView.swift,
+				View/Drinks/DrinkView.swift,
+				View/InfoView.swift,
+				View/NavigationStateManager.swift,
+				View/Shelf/ShelfCellView.swift,
+				View/Shelf/ShelfModView.swift,
+				View/Shelf/ShelfPicker.swift,
+				View/Shelf/ShelfView.swift,
+				View/Shelf/ShelvesView.swift,
+				View/SidebarView.swift,
+				View/Tastings/TastingsView.swift,
+			);
+			target = C733760E2DD939630087BC3A /* CheersUITests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,6 +114,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				C73376172DD939630087BC3A /* Exceptions for "Cheers" folder in "Cheers" target */,
+				C73376282DD9397D0087BC3A /* Exceptions for "Cheers" folder in "CheersTests" target */,
+				C73376292DD9397D0087BC3A /* Exceptions for "Cheers" folder in "CheersUITests" target */,
 			);
 			path = Cheers;
 			sourceTree = "<group>";

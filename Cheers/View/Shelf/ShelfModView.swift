@@ -1,0 +1,111 @@
+//
+//  ShelfModView.swift
+//  Cheers
+//
+//  Created by Thomas Headley on 5/18/25.
+//
+
+import Foundation
+import SwiftUI
+
+struct ShelfModView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+
+    var mode: Mode
+    var onCommit: (Shelf) -> Void
+
+    @State var name: String
+    @State var cabinet: Cabinet?
+
+    var isFormValid: Bool { isNameValid }
+    var isNameValid: Bool { !name.isEmpty }
+
+    init(mode: Mode, onCommit: @escaping (Shelf) -> Void = { _ in }) {
+        self.mode = mode
+        self.onCommit = onCommit
+
+        switch mode {
+        case .add:
+            _name = State(initialValue: "")
+            _cabinet = State(initialValue: nil)
+        case .edit(let shelf):
+            _name = State(initialValue: shelf.name)
+            _cabinet = State(initialValue: shelf.cabinet)
+        }
+    }
+
+    var body: some View {
+        Form {
+            TextField("Name", text: $name, prompt: Text("Name"))
+            CabinetPicker(selectedCabinet: $cabinet)
+        }
+        .navigationTitle(title)
+        .toolbar { toolbar }
+    }
+
+    var title: String {
+        switch mode {
+        case .add:
+            "Add Shelf"
+        case .edit:
+            "Edit Shelf"
+        }
+    }
+
+    @ToolbarContentBuilder
+    var toolbar: some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            Button {
+                dismiss()
+            } label: {
+                Text("Cancel")
+            }
+        }
+
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                commit()
+            } label: {
+                Text("Save")
+            }
+            .disabled(!isFormValid)
+        }
+    }
+
+    func commit() {
+        var committedShelf: Shelf
+
+        switch mode {
+        case .add:
+            if let cabinet {
+                committedShelf = Shelf.create(named: name, in: cabinet)
+            } else {
+                committedShelf = Shelf.create(named: name, for: modelContext)
+            }
+        case .edit(let shelf):
+            shelf.name = name
+            shelf.cabinet = cabinet
+            committedShelf = shelf
+        }
+
+        dismiss()
+        onCommit(committedShelf)
+    }
+}
+
+extension ShelfModView {
+    enum Mode: Identifiable {
+        case add
+        case edit(Shelf)
+
+        var id: String {
+            switch self {
+            case .add:
+                "add"
+            case .edit:
+                "edit"
+            }
+        }
+    }
+}
