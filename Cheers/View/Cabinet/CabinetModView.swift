@@ -85,6 +85,7 @@ struct CabinetModView: View {
     }
 }
 
+// MARK: - Mode
 extension CabinetModView {
     enum Mode: Identifiable {
         case add
@@ -97,6 +98,18 @@ extension CabinetModView {
             case .edit:
                 "edit"
             }
+        }
+    }
+}
+
+// MARK: - View Extensions
+extension View {
+    func cabinetModSheet(
+        activeSheet: Binding<CabinetModView.Mode?>,
+        onCommit: @escaping (Cabinet) -> Void = { _ in }
+    ) -> some View {
+        modSheet(activeSheet: activeSheet) { mode in
+            CabinetModView(mode: mode, onCommit: onCommit)
         }
     }
 }

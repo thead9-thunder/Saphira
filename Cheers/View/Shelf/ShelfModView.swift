@@ -94,6 +94,7 @@ struct ShelfModView: View {
     }
 }
 
+// MARK: - Mode
 extension ShelfModView {
     enum Mode: Identifiable {
         case add
@@ -106,6 +107,18 @@ extension ShelfModView {
             case .edit:
                 "edit"
             }
+        }
+    }
+}
+
+// MARK: - View Extensions
+extension View {
+    func shelfModSheet(
+        activeSheet: Binding<ShelfModView.Mode?>,
+        onCommit: @escaping (Shelf) -> Void = { _ in }
+    ) -> some View {
+        modSheet(activeSheet: activeSheet) { mode in
+            ShelfModView(mode: mode, onCommit: onCommit)
         }
     }
 }

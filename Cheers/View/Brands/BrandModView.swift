@@ -85,6 +85,7 @@ struct BrandModView: View {
     }
 }
 
+// MARK: - Mode
 extension BrandModView {
     enum Mode: Identifiable {
         case add
@@ -97,6 +98,18 @@ extension BrandModView {
             case .edit:
                 "edit"
             }
+        }
+    }
+}
+
+// MARK: - View Extensions
+extension View {
+    func brandModSheet(
+        activeSheet: Binding<BrandModView.Mode?>,
+        onCommit: @escaping (Brand) -> Void = { _ in }
+    ) -> some View {
+        modSheet(activeSheet: activeSheet) { mode in
+            BrandModView(mode: mode, onCommit: onCommit)
         }
     }
 }

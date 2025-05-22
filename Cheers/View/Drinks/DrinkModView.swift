@@ -12,6 +12,7 @@ struct DrinkModView: View {
     @Environment(\.dismiss) private var dismiss
 
     var mode: Mode
+    var onCommit: (Drink) -> Void
     @State var name: String
     @State var brand: Brand?
     @State var shelf: Shelf?
@@ -20,8 +21,9 @@ struct DrinkModView: View {
     var isNameValid: Bool { !name.isEmpty }
     var isShelfValid: Bool { shelf != nil }
 
-    init(mode: Mode) {
+    init(mode: Mode, onCommit: @escaping (Drink) -> Void = { _ in }) {
         self.mode = mode
+        self.onCommit = onCommit
 
         switch mode {
         case .add(let config):
@@ -75,21 +77,26 @@ struct DrinkModView: View {
     }
 
     func commit() {
+        var committedDrink: Drink
+
         switch mode {
         case .add:
-            let createdDrink = Drink.create(named: name, for: modelContext)
-            createdDrink.brand = brand
-            createdDrink.shelf = shelf
+            committedDrink = Drink.create(named: name, for: modelContext)
+            committedDrink.brand = brand
+            committedDrink.shelf = shelf
         case .edit(let drink):
             drink.name = name
             drink.brand = brand
             drink.shelf = shelf
+            committedDrink = drink
         }
 
         dismiss()
+        onCommit(committedDrink)
     }
 }
 
+// MARK: - Mode
 extension DrinkModView {
     enum Mode: Identifiable {
         case add(Config)
@@ -103,7 +110,6 @@ extension DrinkModView {
                 "edit"
             }
         }
-
     }
 
     struct Config {
@@ -112,6 +118,19 @@ extension DrinkModView {
     }
 }
 
+// MARK: - View Extensions
+extension View {
+    func drinkModSheet(
+        activeSheet: Binding<DrinkModView.Mode?>,
+    onCommit: @escaping (Drink) -> Void = { _ in }
+    ) -> some View {
+        modSheet(activeSheet: activeSheet) { mode in
+            DrinkModView(mode: mode, onCommit: onCommit)
+        }
+    }
+}
+
+// MARK: - Previews
 #Preview {
     NavigationStack {
         DrinkModView(mode: .add(DrinkModView.Config()))
