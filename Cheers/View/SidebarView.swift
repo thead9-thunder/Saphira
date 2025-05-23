@@ -53,7 +53,7 @@ struct SidebarView: View {
                     }
                 }
 
-                if shelvesForCount.count == 0 && cabinetsForCount.count == 0 {
+                if shelvesForCount.isEmpty && cabinetsForCount.isEmpty {
                     ContentUnavailableView(
                         "Welcome to Cheers!",
                         systemImage: "cabinet.fill",
@@ -67,15 +67,25 @@ struct SidebarView: View {
         }
         .floatingMenu(
             systemImageName: "plus",
-            menuItems: [
-                addCabinetMenuItem,
-                addShelfMenuItem,
-            ],
+            menuItems: floatingMenuItems,
             position: .bottomCenter
         )
         .cabinetModSheet(activeSheet: $isCabinetModPresented)
         .shelfModSheet(activeSheet: $isShelfModPresented)
         .drinkModSheet(activeSheet: $isDrinkModPresented)
+    }
+
+    private var floatingMenuItems: [FloatingMenuModifier.MenuItem] {
+        var menuItems: [FloatingMenuModifier.MenuItem] = [
+            addCabinetMenuItem,
+            addShelfMenuItem,
+        ]
+
+        if !shelvesForCount.isEmpty {
+            menuItems.append(addDrinkMenuItem)
+        }
+
+        return menuItems;
     }
 
     private var addCabinetMenuItem: FloatingMenuModifier.MenuItem {
