@@ -35,8 +35,13 @@ struct ShelfView: View {
                 emptyStateView
             } else {
                 List(selection: selectedDrinkBinding) {
+                    Section {
+                        ShelfStatsCard(drinks: _drinks)
+                    }
+
                     DrinksView(drinks: _drinks)
                 }
+                .listStyle(InsetGroupedListStyle())
             }
         }
         .navigationTitle(shelf.name)

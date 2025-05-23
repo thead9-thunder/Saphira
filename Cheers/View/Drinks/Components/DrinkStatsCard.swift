@@ -55,31 +55,3 @@ struct DrinkStatsCard: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
-
-// MARK: - Supporting Views
-private struct StatView: View {
-    let value: String
-    let label: String
-    let systemImage: String
-
-    var body: some View {
-        VStack(spacing: 8) {
-            Image(systemName: systemImage)
-                .font(.title2)
-                .foregroundStyle(.tint)
-
-            Text(value)
-                .font(.headline)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
-
