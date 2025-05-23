@@ -17,7 +17,7 @@ class Tasting {
     @Relationship(inverse: \Drink.tastings)
     var drink: Drink?
 
-    init(date: Date = .now) {
+    init(date: Date) {
         self.id = UUID()
         self.date = date
     }
@@ -25,8 +25,8 @@ class Tasting {
 
 extension Tasting {
     @discardableResult
-    static func create(for drink: Drink) -> Tasting {
-        let tasting = Tasting()
+    static func create(for drink: Drink, at date: Date = .now) -> Tasting {
+        let tasting = Tasting(date: date)
         drink.modelContext?.insert(tasting)
         drink.tastings?.append(tasting)
 

@@ -55,6 +55,9 @@
 				View/Cabinet/CabinetPicker.swift,
 				View/Cabinet/CabinetsView.swift,
 				View/Components/FloatingMenu.swift,
+				View/Drinks/Components/DrinkHeaderCard.swift,
+				View/Drinks/Components/DrinkStatsCard.swift,
+				View/Drinks/Components/DrinkTastingTimeline.swift,
 				View/Drinks/DrinkCellView.swift,
 				View/Drinks/DrinkModView.swift,
 				View/Drinks/DrinkView.swift,
@@ -66,6 +69,8 @@
 				View/Shelf/ShelfView.swift,
 				View/Shelf/ShelvesView.swift,
 				View/SidebarView.swift,
+				View/Tastings/TastingCell.swift,
+				View/Tastings/TastingModView.swift,
 				View/Tastings/TastingsView.swift,
 			);
 			target = C73376042DD939630087BC3A /* CheersTests */;
@@ -91,6 +96,9 @@
 				View/CheersView.swift,
 				View/Components/FloatingButton.swift,
 				View/Components/FloatingMenu.swift,
+				View/Drinks/Components/DrinkHeaderCard.swift,
+				View/Drinks/Components/DrinkStatsCard.swift,
+				View/Drinks/Components/DrinkTastingTimeline.swift,
 				View/Drinks/DrinkCellView.swift,
 				View/Drinks/DrinkModView.swift,
 				View/Drinks/DrinksView.swift,
@@ -103,6 +111,8 @@
 				View/Shelf/ShelfView.swift,
 				View/Shelf/ShelvesView.swift,
 				View/SidebarView.swift,
+				View/Tastings/TastingCell.swift,
+				View/Tastings/TastingModView.swift,
 				View/Tastings/TastingsView.swift,
 			);
 			target = C733760E2DD939630087BC3A /* CheersUITests */;

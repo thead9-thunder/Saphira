@@ -1,0 +1,40 @@
+//
+//  DrinkTastingTimeline.swift
+//  Cheers
+//
+//  Created by Thomas Headley on 5/22/25.
+//
+
+import Foundation
+import SwiftUI
+
+struct DrinkTastingTimeline: View {
+    var tastings: [Tasting]
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Text("Logbook")
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            if tastings.isEmpty {
+                ContentUnavailableView(
+                    "No Tastings",
+                    systemImage: "book.pages",
+                    description: Text("Add your first tasting using the button below")
+                )
+            } else {
+                ForEach(tastings) { tasting in
+                    TastingCell(tasting: tasting)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .background(Color(uiColor: .tertiarySystemGroupedBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+            }
+        }
+        .padding()
+        .background(Color(uiColor: .secondarySystemGroupedBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+}

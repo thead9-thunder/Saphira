@@ -39,9 +39,14 @@ struct DrinkModView: View {
 
     var body: some View {
         Form {
-            TextField("Name", text: $name, prompt: Text("Name"))
-            BrandPicker(selectedBrand: $brand)
-            ShelfPicker(selectedShelf: $shelf)
+            Section {
+                TextField("Name", text: $name, prompt: Text("Name"))
+            }
+
+            Section {
+                BrandPicker(selectedBrand: $brand)
+                ShelfPicker(selectedShelf: $shelf)
+            }
         }
         .navigationTitle(title)
         .toolbar { toolbar }
