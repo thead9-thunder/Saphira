@@ -22,15 +22,28 @@ struct DrinkView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
+        List {
+            Section {
                 DrinkHeaderCard(drink: drink)
-                DrinkStatsCard(tastings: _tastings)
-                // TODO: Make a card for meta data like rating, in stock, etc
-
-                DrinkTastingTimeline(tastings: _tastings)
+            } header : {
+                EmptyView()
             }
-            .padding()
+
+            Section("Statistics") {
+                TastingsStatsCard(tastings: _tastings)
+            }
+
+            Section("Logbook") {
+                if tastings.isEmpty {
+                    ContentUnavailableView(
+                        "No Tastings",
+                        systemImage: "book.pages",
+                        description: Text("Add your first tasting using the button below")
+                    )
+                } else {
+                    TastingsTimeline(tastings: _tastings)
+                }
+            }
         }
         .navigationTitle(drink.name)
         .toolbar { toolbar }

@@ -19,6 +19,8 @@ struct ShelfView: View {
     }
     
     @Query private var drinks: [Drink]
+    @Query private var latestTastings: [Tasting]
+
     let shelf: Shelf
 
     @State private var isShelfModPresented: ShelfModView.Mode?
@@ -27,6 +29,7 @@ struct ShelfView: View {
     init(shelf: Shelf) {
         self.shelf = shelf
         self._drinks = Query(Drink.on(shelf: shelf))
+        self._latestTastings = Query(Tasting.forShelf(shelf, limit: 10))
     }
 
     var body: some View {
@@ -35,11 +38,19 @@ struct ShelfView: View {
                 emptyStateView
             } else {
                 List(selection: selectedDrinkBinding) {
-                    Section {
-                        ShelfStatsCard(drinks: _drinks)
+                    Section("Statistics") {
+                        DrinksStatsCard(drinks: _drinks)
                     }
 
-                    DrinksView(drinks: _drinks)
+                    if latestTastings.count != 0 {
+                        Section("Latest Tastings") {
+                            TastingsReLogCard(tastings: _latestTastings)
+                        }
+                    }
+
+                    Section("Drinks") {
+                        DrinksView(drinks: _drinks)
+                    }
                 }
                 .listStyle(InsetGroupedListStyle())
             }

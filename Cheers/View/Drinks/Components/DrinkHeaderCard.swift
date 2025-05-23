@@ -41,10 +41,10 @@ struct DrinkHeaderCard: View {
                         .foregroundStyle(.secondary)
                 }
             }
+
+            Divider()
+
+            DrinkMetadataCard(drink: drink)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }

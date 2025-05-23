@@ -37,11 +37,35 @@ extension Tasting {
 }
 
 extension Tasting {
+    static func latest(limit: Int? = nil) -> FetchDescriptor<Tasting> {
+        var descriptor = FetchDescriptor<Tasting>(
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
+        if let limit {
+            descriptor.fetchLimit = limit
+        }
+        return descriptor
+    }
+
     static func forDrink(_ drink: Drink) -> FetchDescriptor<Tasting> {
         let drinkID = drink.id
         return FetchDescriptor<Tasting>(
             predicate: #Predicate { $0.drink?.id == drinkID },
             sortBy: [SortDescriptor(\.date, order: .reverse)]
         )
+    }
+
+    static func forShelf(_ shelf: Shelf, limit: Int? = nil) -> FetchDescriptor<Tasting> {
+        let drinkIDs = shelf.drinks?.map { $0.id } ?? []
+        var descriptor = FetchDescriptor<Tasting>(
+            predicate: #Predicate<Tasting> { tasting in
+                tasting.drink.flatMap { drink in drinkIDs.contains(drink.id) } ?? false
+            },
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
+        if let limit {
+            descriptor.fetchLimit = limit
+        }
+        return descriptor
     }
 }

@@ -17,21 +17,19 @@ struct TastingCell: View {
         Button {
             activeSheet = .edit(tasting)
         } label: {
-            VStack(alignment: .leading) {
-                Label {
+            Label {
+                VStack(alignment: .leading) {
                     Text(tasting.date.formatted(date: .abbreviated, time: .shortened))
-                } icon: {
-                    Image(systemName: "calendar")
-                }
-                .foregroundStyle(.secondary)
-                .font(.caption)
 
-                if let notes = tasting.notes, !notes.isEmpty {
-                    Text(notes)
-                        .font(.body)
-                        .foregroundStyle(.primary)
+                    if let notes = tasting.notes, !notes.isEmpty {
+                        Text(notes)
+                            .font(.body)
+                    }
                 }
+            } icon: {
+                Image(systemName: "calendar")
             }
+            .font(.caption)
             .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
         }

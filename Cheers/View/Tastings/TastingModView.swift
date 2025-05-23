@@ -115,20 +115,22 @@ struct TastingModView: View {
     }
 
     func commit() {
-        var committedTasting: Tasting
+        withAnimation {
+            var committedTasting: Tasting
 
-        switch mode {
-        case .add(let drink):
-            committedTasting = Tasting.create(for: drink, at: date)
-            committedTasting.notes = notes
-        case .edit(let tasting):
-            tasting.date = date
-            tasting.notes = notes
-            committedTasting = tasting
+            switch mode {
+            case .add(let drink):
+                    committedTasting = Tasting.create(for: drink, at: date)
+                    committedTasting.notes = notes
+            case .edit(let tasting):
+                tasting.date = date
+                tasting.notes = notes
+                committedTasting = tasting
+            }
+
+            dismiss()
+            onCommit(committedTasting)
         }
-
-        dismiss()
-        onCommit(committedTasting)
     }
 }
 

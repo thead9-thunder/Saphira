@@ -18,23 +18,34 @@ struct SidebarView: View {
         )
     }
 
-    @Query private var shelvesForCount: [Shelf]
     @Query private var cabinetsForCount: [Cabinet]
+    @Query private var shelvesForCount: [Shelf]
+    @Query private var latestTastings: [Tasting]
 
     @State private var isCabinetModPresented: CabinetModView.Mode?
     @State private var isShelfModPresented: ShelfModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
 
+    init() {
+        _latestTastings = Query(Tasting.latest(limit: 10))
+    }
+
     var body: some View {
         VStack {
-            if shelvesForCount.count == 0 && cabinetsForCount.count == 0 {
-                ContentUnavailableView(
-                    "Welcome to Cheers!",
-                    systemImage: "cabinet.fill",
-                    description: Text("Start your journey by pressing the button below")
-                )
-            } else {
-                List(selection: selectedShelfBinding) {
+            List(selection: selectedShelfBinding) {
+                if !latestTastings.isEmpty {
+                    Section("Latest Tastings") {
+                        TastingsReLogCard(tastings: _latestTastings)
+                    }
+                }
+
+                if shelvesForCount.count == 0 && cabinetsForCount.count == 0 {
+                    ContentUnavailableView(
+                        "Welcome to Cheers!",
+                        systemImage: "cabinet.fill",
+                        description: Text("Start your journey by pressing the button below")
+                    )
+                } else {
                     ShelvesView(shelves: Shelf.notInCabinet)
                     CabinetsView()
                 }
