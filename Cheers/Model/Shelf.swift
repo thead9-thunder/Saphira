@@ -11,6 +11,7 @@ import SwiftData
 @Model
 class Shelf {
     var id: UUID
+    var createdAt: Date
     var name: String
 
     @Relationship(inverse: \Cabinet.shelves)
@@ -21,6 +22,7 @@ class Shelf {
 
     init(name: String, cabinet: Cabinet?) {
         self.id = UUID()
+        self.createdAt = Date.now
         self.name = name
         self.cabinet = cabinet
     }

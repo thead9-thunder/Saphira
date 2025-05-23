@@ -11,6 +11,7 @@ import SwiftData
 @Model
 class Tasting {
     var id: UUID
+    var createdAt: Date
     var date: Date
     var notes: String?
 
@@ -19,6 +20,7 @@ class Tasting {
 
     init(date: Date) {
         self.id = UUID()
+        self.createdAt = Date.now
         self.date = date
     }
 }

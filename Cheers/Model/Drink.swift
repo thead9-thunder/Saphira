@@ -11,7 +11,10 @@ import SwiftData
 @Model
 class Drink {
     var id: UUID
+    var createdAt: Date
     var name: String
+
+    var isFavorite: Bool = false
 
     @Relationship(deleteRule: .nullify)
     var brand: Brand?
@@ -24,6 +27,7 @@ class Drink {
 
     private init(name: String) {
         self.id = UUID()
+        self.createdAt = Date.now
         self.name = name
     }
 }

@@ -11,6 +11,7 @@ import SwiftData
 @Model
 class Cabinet {
     var id: UUID
+    var createdAt: Date
     var name: String
 
     @Relationship(deleteRule: .cascade)
@@ -18,6 +19,7 @@ class Cabinet {
 
     init(name: String) {
         self.id = UUID()
+        self.createdAt = Date.now
         self.name = name
     }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct SidebarView: View {
     @Environment(\.navigationState) private var navigationState
@@ -17,15 +18,26 @@ struct SidebarView: View {
         )
     }
 
+    @Query private var shelvesForCount: [Shelf]
+    @Query private var cabinetsForCount: [Cabinet]
+
     @State private var isCabinetModPresented: CabinetModView.Mode?
     @State private var isShelfModPresented: ShelfModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
 
     var body: some View {
         VStack {
-            List(selection: selectedShelfBinding) {
-                ShelvesView(shelves: Shelf.notInCabinet)
-                CabinetsView()
+            if shelvesForCount.count == 0 && cabinetsForCount.count == 0 {
+                ContentUnavailableView(
+                    "Welcome to Cheers!",
+                    systemImage: "cabinet.fill",
+                    description: Text("Start your journey by pressing the button below")
+                )
+            } else {
+                List(selection: selectedShelfBinding) {
+                    ShelvesView(shelves: Shelf.notInCabinet)
+                    CabinetsView()
+                }
             }
         }
         .floatingMenu(
@@ -49,7 +61,7 @@ struct SidebarView: View {
 
     private var addShelfMenuItem: FloatingMenuModifier.MenuItem {
         .init(title: "Add Shelf", systemImageName: "plus") {
-            isShelfModPresented = .add
+            isShelfModPresented = .add()
         }
     }
 

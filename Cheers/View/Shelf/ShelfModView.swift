@@ -27,9 +27,9 @@ struct ShelfModView: View {
         self.onCommit = onCommit
 
         switch mode {
-        case .add:
+        case .add(let cabinet):
             _name = State(initialValue: "")
-            _cabinet = State(initialValue: nil)
+            _cabinet = State(initialValue: cabinet)
         case .edit(let shelf):
             _name = State(initialValue: shelf.name)
             _cabinet = State(initialValue: shelf.cabinet)
@@ -138,7 +138,7 @@ struct ShelfModView: View {
 // MARK: - Mode
 extension ShelfModView {
     enum Mode: Identifiable {
-        case add
+        case add(Cabinet? = nil)
         case edit(Shelf)
 
         var id: String {

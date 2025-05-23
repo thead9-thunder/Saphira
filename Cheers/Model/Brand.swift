@@ -11,6 +11,7 @@ import SwiftData
 @Model
 class Brand {
     var id: UUID
+    var createdAt: Date
     var name: String
 
     @Relationship(inverse: \Drink.brand)
@@ -18,6 +19,7 @@ class Brand {
 
     init(name: String) {
         self.id = UUID()
+        self.createdAt = Date.now
         self.name = name
     }
 }
