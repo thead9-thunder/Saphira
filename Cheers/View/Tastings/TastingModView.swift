@@ -73,7 +73,7 @@ struct TastingModView: View {
         .alert("Delete Tasting", isPresented: $showingDeleteConfirmation) {
             Button("Delete", role: .destructive) {
                 if case .edit(let tasting) = mode {
-                    modelContext.delete(tasting)
+                    tasting.delete()
                     dismiss()
                 }
             }

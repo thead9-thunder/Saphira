@@ -25,10 +25,10 @@ struct DrinkView: View {
         ScrollView {
             VStack(spacing: 20) {
                 DrinkHeaderCard(drink: drink)
-                DrinkStatsCard(tastings: tastings)
+                DrinkStatsCard(tastings: _tastings)
                 // TODO: Make a card for meta data like rating, in stock, etc
 
-                DrinkTastingTimeline(tastings: tastings)
+                DrinkTastingTimeline(tastings: _tastings)
             }
             .padding()
         }

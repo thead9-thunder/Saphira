@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct ShelfView: View {
     @Environment(\.navigationState) private var navigationState
@@ -16,21 +17,61 @@ struct ShelfView: View {
             set: { navigationState.selectedDrink = $0 }
         )
     }
-
+    
+    @Query private var drinks: [Drink]
     let shelf: Shelf
 
+    @State private var isShelfModPresented: ShelfModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
+    
+    init(shelf: Shelf) {
+        self.shelf = shelf
+        self._drinks = Query(Drink.on(shelf: shelf))
+    }
 
     var body: some View {
-        VStack {
-            List(selection: selectedDrinkBinding) {
-                DrinksView(drinks: Drink.on(shelf: shelf))
+        Group {
+            if drinks.isEmpty {
+                emptyStateView
+            } else {
+                List(selection: selectedDrinkBinding) {
+                    DrinksView(drinks: _drinks)
+                }
             }
         }
         .navigationTitle(shelf.name)
-        .floatingButton(systemImageName: "plus", position: .bottomCenter) {
+        .toolbar { toolbar }
+        .shelfModSheet(activeSheet: $isShelfModPresented)
+        .drinkModSheet(activeSheet: $isDrinkModPresented)
+        .floatingButton(label: "Add Drink", systemImage: "plus", position: .bottomCenter) {
             isDrinkModPresented = .add(DrinkModView.Config(shelf: shelf))
         }
-        .drinkModSheet(activeSheet: $isDrinkModPresented)
+    }
+
+    @ToolbarContentBuilder
+    var toolbar: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                isShelfModPresented = .edit(shelf)
+            } label: {
+                Label("Edit", systemImage: "pencil")
+            }
+        }
+    }
+
+    private var emptyStateView: some View {
+        ContentUnavailableView {
+            Label("No Drinks", systemImage: "wineglass")
+        } description: {
+            Text("Add your first drink using the button below")
+        }
+    }
+
+    private var noSearchResultsView: some View {
+        ContentUnavailableView {
+            Label("No Results", systemImage: "magnifyingglass")
+        } description: {
+            Text("Try adjusting your search term")
+        }
     }
 }

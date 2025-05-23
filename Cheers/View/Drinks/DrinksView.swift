@@ -14,6 +14,10 @@ struct DrinksView: View {
     init(drinks: FetchDescriptor<Drink> = Drink.alphabetical) {
         _drinks = Query(drinks)
     }
+    
+    init(drinks: Query<Drink, Array<Drink>>) {
+        _drinks = drinks
+    }
 
     var body: some View {
         ForEach(drinks) { drink in

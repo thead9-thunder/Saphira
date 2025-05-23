@@ -7,9 +7,18 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct DrinkStatsCard: View {
-    var tastings: [Tasting]
+    @Query var tastings: [Tasting]
+
+    init(tastings: FetchDescriptor<Tasting>) {
+        _tastings = Query(tastings)
+    }
+
+    init(tastings: Query<Tasting, Array<Tasting>>) {
+        _tastings = tastings
+    }
 
     var body: some View {
         VStack(spacing: 16) {
