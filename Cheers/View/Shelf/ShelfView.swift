@@ -10,58 +10,20 @@ import SwiftUI
 import SwiftData
 
 struct ShelfView: View {
-    @Environment(\.navigationState) private var navigationState
-    private var selectedDrinkBinding: Binding<Drink?> {
-        Binding<Drink?>(
-            get: { navigationState.selectedDrink },
-            set: { navigationState.selectedDrink = $0 }
-        )
-    }
-    
-    @Query private var drinks: [Drink]
-    @Query private var latestTastings: [Tasting]
-
     let shelf: Shelf
 
     @State private var isShelfModPresented: ShelfModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
-    
-    init(shelf: Shelf) {
-        self.shelf = shelf
-        self._drinks = Query(Drink.on(shelf: shelf))
-        self._latestTastings = Query(Tasting.forShelf(shelf, limit: 10))
-    }
 
     var body: some View {
-        Group {
-            if drinks.isEmpty {
-                emptyStateView
-            } else {
-                List(selection: selectedDrinkBinding) {
-                    Section("Statistics") {
-                        DrinksStatsCard(drinks: _drinks)
-                    }
-
-                    if latestTastings.count != 0 {
-                        Section("Latest Tastings") {
-                            TastingsReLogCard(tastings: _latestTastings)
-                        }
-                    }
-
-                    Section("Drinks") {
-                        DrinksView(drinks: _drinks)
-                    }
-                }
-                .listStyle(InsetGroupedListStyle())
+        DrinksView(config: drinksViewConfig)
+            .navigationTitle(shelf.name)
+            .toolbar { toolbar }
+            .shelfModSheet(activeSheet: $isShelfModPresented)
+            .drinkModSheet(activeSheet: $isDrinkModPresented)
+            .floatingButton(label: "Add Drink", systemImage: "plus", position: .bottomCenter) {
+                isDrinkModPresented = .add(DrinkModView.Config(shelf: shelf))
             }
-        }
-        .navigationTitle(shelf.name)
-        .toolbar { toolbar }
-        .shelfModSheet(activeSheet: $isShelfModPresented)
-        .drinkModSheet(activeSheet: $isDrinkModPresented)
-        .floatingButton(label: "Add Drink", systemImage: "plus", position: .bottomCenter) {
-            isDrinkModPresented = .add(DrinkModView.Config(shelf: shelf))
-        }
     }
 
     @ToolbarContentBuilder
@@ -89,5 +51,14 @@ struct ShelfView: View {
         } description: {
             Text("Try adjusting your search term")
         }
+    }
+}
+
+extension ShelfView {
+    var drinksViewConfig: DrinksView.Config {
+        .init(
+            drinks: Query(Drink.on(shelf: shelf)),
+            latestTastings: Query(Tasting.forShelf(shelf, limit: 10))
+        )
     }
 }

@@ -33,6 +33,20 @@ struct SidebarView: View {
     var body: some View {
         VStack {
             List(selection: selectedShelfBinding) {
+                Section {
+                    NavigationLink {
+                        FavoritesView()
+                    } label: {
+                        Text("Favorites")
+                    }
+
+                    NavigationLink {
+                        InStockView()
+                    } label: {
+                        Text("In Stock")
+                    }
+                }
+
                 if !latestTastings.isEmpty {
                     Section("Latest Tastings") {
                         TastingsReLogCard(tastings: _latestTastings)

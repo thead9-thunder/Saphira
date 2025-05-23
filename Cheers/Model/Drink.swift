@@ -50,6 +50,20 @@ extension Drink {
         )
     }
 
+    static var favorites: FetchDescriptor<Drink> {
+        FetchDescriptor<Drink>(
+            predicate: #Predicate { $0.isFavorite },
+            sortBy: [SortDescriptor(\.name, order: .forward)]
+        )
+    }
+
+    static var inStock: FetchDescriptor<Drink> {
+        FetchDescriptor<Drink>(
+            predicate: #Predicate { $0.isInStock },
+            sortBy: [SortDescriptor(\.name, order: .forward)]
+        )
+    }
+
     static func by(brand: Brand) -> FetchDescriptor<Drink> {
         let brandID = brand.id
         return FetchDescriptor<Drink>(

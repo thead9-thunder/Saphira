@@ -68,4 +68,44 @@ extension Tasting {
         }
         return descriptor
     }
+
+    static func forBrand(_ brand: Brand, limit: Int? = nil) -> FetchDescriptor<Tasting> {
+        let drinkIDs = brand.drinks?.map { $0.id } ?? []
+        var descriptor = FetchDescriptor<Tasting>(
+            predicate: #Predicate<Tasting> { tasting in
+                tasting.drink.flatMap { drink in drinkIDs.contains(drink.id) } ?? false
+            },
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
+        if let limit {
+            descriptor.fetchLimit = limit
+        }
+        return descriptor
+    }
+
+    static func forFavorites(limit: Int? = nil) -> FetchDescriptor<Tasting> {
+        var descriptor = FetchDescriptor<Tasting>(
+            predicate: #Predicate<Tasting> { tasting in
+                tasting.drink?.isFavorite ?? false
+            },
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
+        if let limit {
+            descriptor.fetchLimit = limit
+        }
+        return descriptor
+    }
+
+    static func forInStock(limit: Int? = nil) -> FetchDescriptor<Tasting> {
+        var descriptor = FetchDescriptor<Tasting>(
+            predicate: #Predicate<Tasting> { tasting in
+                tasting.drink?.isInStock ?? false
+            },
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
+        if let limit {
+            descriptor.fetchLimit = limit
+        }
+        return descriptor
+    }
 }
