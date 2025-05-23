@@ -9,7 +9,12 @@ import Foundation
 import SwiftUI
 
 class NavigationStateManager: ObservableObject {
-    @Published var selectedShelf: Shelf?
+    @Published var selectedShelf: Shelf? {
+        // Needed because sometimes selectedDrink would be set programmaticaly and then when selectedShelf would change it would auto navigate to the previously set selectedDrink
+        willSet {
+            selectedDrink = nil
+        }
+    }
     @Published var selectedDrink: Drink?
     @Published var navigationPath = NavigationPath()
 

@@ -37,13 +37,13 @@ struct SidebarView: View {
                     NavigationLink {
                         FavoritesView()
                     } label: {
-                        Text("Favorites")
+                        Label("Favorites", systemImage: "star.fill")
                     }
 
                     NavigationLink {
                         InStockView()
                     } label: {
-                        Text("In Stock")
+                        Label("In Stock", systemImage: "checkmark.circle.fill")
                     }
                 }
 
