@@ -46,7 +46,6 @@ struct DrinkReLogView: View {
 
     var body: some View {
         HStack(spacing: 15) {
-            // TODO: Make this work for ShelfView
             NavigationLink(value: NavigationDestination.drink(drink)) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(drink.name)

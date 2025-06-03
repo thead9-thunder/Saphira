@@ -12,7 +12,7 @@ import SwiftData
 struct CheersApp: App {
     var body: some Scene {
         WindowGroup {
-            CheersView2()
+            CheersView()
         }
         .modelContainer(ModelUtilities.persistentModelContainer)
     }

@@ -2,41 +2,29 @@
 //  CheersView.swift
 //  Cheers
 //
-//  Created by Thomas Headley on 5/18/25.
+//  Created by Thomas Headley on 5/23/25.
 //
 
+import Foundation
 import SwiftUI
-import SwiftData
+
+
 
 struct CheersView: View {
+    @State var selectedDestination: NavigationDestination?
+    @State var detailPath: [NavigationDestination] = []
+
     var body: some View {
         NavigationSplitView {
-            SidebarView()
+            SidebarView(selectedItem: $selectedDestination)
                 .navigationTitle("Cheers")
-        } content: {
-//            if let shelf = navigationState.selectedShelf {
-//                ShelfView(shelf: shelf)
-//            } else {
-//                ContentUnavailableView(
-//                    "No Shelf Selected",
-//                    systemImage: "square.stack.3d.up",
-//                    description: Text("Please select a shelf from the sidebar")
-//                )
-//            }
         } detail: {
-//            if let drink = navigationState.selectedDrink {
-//                DrinkView(drink: drink)
-//            } else {
-//                ContentUnavailableView(
-//                    "No Drink Selected",
-//                    systemImage: "wineglass",
-//                    description: Text("Please select a drink")
-//                )
-//            }
+            NavigationStack(path: $detailPath) {
+                NavigationDestination.navigationDestinationView(selectedDestination)
+                    .navigationDestination(for: NavigationDestination.self) { destination in
+                        NavigationDestination.navigationDestinationView(destination)
+                    }
+            }
         }
     }
-}
-
-#Preview {
-    CheersView()
 }
