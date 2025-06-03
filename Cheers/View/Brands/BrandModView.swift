@@ -108,7 +108,7 @@ extension View {
         activeSheet: Binding<BrandModView.Mode?>,
         onCommit: @escaping (Brand) -> Void = { _ in }
     ) -> some View {
-        modSheet(activeSheet: activeSheet) { mode in
+        modSheet(activeSheet: activeSheet, detents: [.medium]) { mode in
             BrandModView(mode: mode, onCommit: onCommit)
         }
     }

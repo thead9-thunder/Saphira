@@ -11,6 +11,7 @@ import SwiftUI
 enum NavigationDestination: Hashable {
     case favorites
     case inStock
+    case brands
     case brand(Brand)
     case drink(Drink)
     case shelf(Shelf)
@@ -22,6 +23,8 @@ enum NavigationDestination: Hashable {
             FavoritesView()
         case .inStock:
             InStockView()
+        case .brands:
+            BrandsView()
         case .brand(let brand):
             BrandView(brand: brand)
         case .drink(let drink):

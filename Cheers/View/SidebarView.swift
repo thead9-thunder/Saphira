@@ -31,6 +31,10 @@ struct SidebarView: View {
                     NavigationLink(value: NavigationDestination.inStock) {
                         Label("In Stock", systemImage: "checkmark.circle.fill")
                     }
+
+                    NavigationLink(value: NavigationDestination.brands) {
+                        Label("Brands", systemImage: "storefront.fill")
+                    }
                 }
 
                 if !latestTastings.isEmpty {

@@ -6,16 +6,37 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BrandCellView: View {
     var brand: Brand
 
+    @Query private var drinks: [Drink]
+
     @State private var activeSheet: BrandModView.Mode?
 
+    init(brand: Brand) {
+        self.brand = brand
+        self._drinks = Query(Drink.by(brand: brand))
+    }
+
     var body: some View {
-        Text(brand.name)
-            .contextMenu { contextMenu }
-            .brandModSheet(activeSheet: $activeSheet)
+        HStack {
+            Text(brand.name)
+
+            Spacer()
+
+            Text("\(drinks.count)")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Color(uiColor: .tertiarySystemGroupedBackground))
+                .clipShape(Capsule())
+        }
+        .contentShape(Rectangle())
+        .contextMenu { contextMenu }
+        .brandModSheet(activeSheet: $activeSheet)
     }
 
     @ViewBuilder

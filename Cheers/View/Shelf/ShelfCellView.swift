@@ -11,6 +11,7 @@ import SwiftData
 
 struct ShelfCellView: View {
     var shelf: Shelf
+
     @Query private var drinks: [Drink]
 
     @State private var activeSheet: ShelfModView.Mode?
