@@ -1,15 +1,17 @@
 //
-//  SidebarView.swift
+//  SidebarView2.swift
 //  Cheers
 //
-//  Created by Thomas Headley on 5/19/25.
+//  Created by Thomas Headley on 6/1/25.
 //
 
 import Foundation
 import SwiftUI
 import SwiftData
 
-struct SidebarView: View {
+struct SidebarView2: View {
+    @Binding var selectedItem: NavigationDestination?
+
     @Query private var cabinetsForCount: [Cabinet]
     @Query private var shelvesForCount: [Shelf]
     @Query private var latestTastings: [Tasting]
@@ -18,23 +20,15 @@ struct SidebarView: View {
     @State private var isShelfModPresented: ShelfModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
 
-    init() {
-        _latestTastings = Query(Tasting.latest(limit: 10))
-    }
-
     var body: some View {
         VStack {
-            List {
+            List(selection: $selectedItem) {
                 Section {
-                    NavigationLink {
-                        FavoritesView()
-                    } label: {
+                    NavigationLink(value: NavigationDestination.favorites) {
                         Label("Favorites", systemImage: "star.fill")
                     }
 
-                    NavigationLink {
-                        InStockView()
-                    } label: {
+                    NavigationLink(value: NavigationDestination.inStock) {
                         Label("In Stock", systemImage: "checkmark.circle.fill")
                     }
                 }

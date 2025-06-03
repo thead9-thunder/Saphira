@@ -16,7 +16,7 @@ struct BrandsView: View {
     var body: some View {
         List {
             ForEach(brands) { brand in
-                NavigationLink(destination: BrandView(brand: brand)) {
+                NavigationLink(value: NavigationDestination.brand(brand)) {
                     BrandCellView(brand: brand)
                 }
             }

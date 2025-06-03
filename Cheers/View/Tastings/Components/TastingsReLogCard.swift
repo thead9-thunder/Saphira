@@ -40,8 +40,6 @@ struct TastingsReLogCard: View {
 }
 
 struct DrinkReLogView: View {
-    @Environment(\.navigationState) private var navigationState
-
     let drink: Drink
 
     @State private var isTastingModPresented: TastingModView.Mode?
@@ -49,13 +47,11 @@ struct DrinkReLogView: View {
     var body: some View {
         HStack(spacing: 15) {
             // TODO: Make this work for ShelfView
-            Button {
-                navigationState.navigate(to: drink)
-            } label: {
+            NavigationLink(value: NavigationDestination.drink(drink)) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(drink.name)
                         .font(.headline)
-
+                    
                     if let brand = drink.brand {
                         Text(brand.name)
                             .foregroundStyle(.secondary)

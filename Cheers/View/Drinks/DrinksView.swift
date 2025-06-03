@@ -9,14 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct DrinksView: View {
-    @Environment(\.navigationState) private var navigationState
-    private var selectedDrinkBinding: Binding<Drink?> {
-        Binding<Drink?>(
-            get: { navigationState.selectedDrink },
-            set: { navigationState.selectedDrink = $0 }
-        )
-    }
-
     @Query private var drinks: [Drink]
     @Query private var latestTastings: [Tasting]
 
@@ -39,7 +31,7 @@ struct DrinksView: View {
             if drinks.isEmpty {
                 emptyStateView
             } else {
-                List(selection: selectedDrinkBinding) {
+                List {
                     Section("Statistics") {
                         DrinksStatsCard(drinks: _drinks)
                     }
@@ -52,7 +44,7 @@ struct DrinksView: View {
 
                     Section("Drinks") {
                         ForEach(drinks) { drink in
-                            NavigationLink(value: drink) {
+                            NavigationLink(value: NavigationDestination.drink(drink)) {
                                 DrinkCellView(drink: drink)
                             }
                         }

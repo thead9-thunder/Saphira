@@ -18,7 +18,7 @@ struct ShelvesView: View {
 
     var body: some View {
         ForEach(shelves) { shelf in
-            NavigationLink(value: shelf) {
+            NavigationLink(value: NavigationDestination.shelf(shelf)) {
                 ShelfCellView(shelf: shelf)
             }
         }
