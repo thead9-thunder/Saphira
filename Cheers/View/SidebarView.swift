@@ -55,8 +55,9 @@ struct SidebarView: View {
                 }
             }
         }
-        .floatingMenu(
-            systemImageName: "plus",
+        .floatingAction(
+            title: "Add",
+            systemImage: "plus",
             menuItems: floatingMenuItems,
             position: .bottomCenter
         )
@@ -65,8 +66,8 @@ struct SidebarView: View {
         .drinkModSheet(activeSheet: $isDrinkModPresented)
     }
 
-    private var floatingMenuItems: [FloatingMenuModifier.MenuItem] {
-        var menuItems: [FloatingMenuModifier.MenuItem] = [
+    private var floatingMenuItems: [FloatingMenuItem] {
+        var menuItems: [FloatingMenuItem] = [
             addCabinetMenuItem,
             addShelfMenuItem,
         ]
@@ -78,19 +79,19 @@ struct SidebarView: View {
         return menuItems;
     }
 
-    private var addCabinetMenuItem: FloatingMenuModifier.MenuItem {
+    private var addCabinetMenuItem: FloatingMenuItem {
         .init(title: "Add Cabinet", systemImageName: "plus") {
             isCabinetModPresented = .add
         }
     }
 
-    private var addShelfMenuItem: FloatingMenuModifier.MenuItem {
+    private var addShelfMenuItem: FloatingMenuItem {
         .init(title: "Add Shelf", systemImageName: "plus") {
             isShelfModPresented = .add()
         }
     }
 
-    private var addDrinkMenuItem: FloatingMenuModifier.MenuItem {
+    private var addDrinkMenuItem: FloatingMenuItem {
         .init(title: "Add Drink", systemImageName: "plus") {
             isDrinkModPresented = .add(DrinkModView.Config())
         }

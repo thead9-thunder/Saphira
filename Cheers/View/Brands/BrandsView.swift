@@ -22,7 +22,7 @@ struct BrandsView: View {
             }
         }
         .navigationTitle("Brands")
-        .floatingButton(systemImageName: "plus", position: .bottomCenter) {
+        .floatingAction(systemImage: "plus", position: .bottomCenter) {
             activeSheet = .add
         }
         .brandModSheet(activeSheet: $activeSheet)

@@ -16,7 +16,6 @@ struct DrinkModView: View {
     @State var name: String
     @State var brand: Brand?
     @State var shelf: Shelf?
-    @State private var showingDeleteConfirmation = false
 
     var isFormValid: Bool { isNameValid && isShelfValid }
     var isNameValid: Bool { !name.isEmpty }
@@ -45,45 +44,12 @@ struct DrinkModView: View {
             }
 
             Section {
-                BrandPicker(selectedBrand: $brand)
+                BrandPickerButton(selectedBrand: $brand)
                 ShelfPicker(selectedShelf: $shelf)
-            }
-            
-            Section {
-                HStack {
-                    Spacer()
-                    Button(action: commit) {
-                        Label {
-                            Text("Save")
-                                .font(.system(size: 16, weight: .semibold))
-                        } icon: {
-                            Image(systemName: "checkmark")
-                        }
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background(RoundedRectangle(cornerRadius: 20).fill(Color.accentColor))
-                        .shadow(radius: 4)
-                    }
-                    .disabled(!isFormValid)
-                    Spacer()
-                }
-                .listRowBackground(Color.clear)
             }
         }
         .navigationTitle(title)
         .toolbar { toolbar }
-        .alert("Delete Drink", isPresented: $showingDeleteConfirmation) {
-            Button("Delete", role: .destructive) {
-                if case .edit(let drink) = mode {
-                    drink.delete()
-                    dismiss()
-                }
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("Are you sure you want to delete this drink? This action cannot be undone.")
-        }
     }
 
     var title: String {
@@ -105,15 +71,13 @@ struct DrinkModView: View {
             }
         }
 
-        if case .edit = mode {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button(role: .destructive) {
-                    showingDeleteConfirmation = true
-                } label: {
-                    Image(systemName: "trash")
-                        .foregroundStyle(.red)
-                }
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                commit()
+            } label: {
+                Text("Done")
             }
+            .disabled(!isFormValid)
         }
     }
 

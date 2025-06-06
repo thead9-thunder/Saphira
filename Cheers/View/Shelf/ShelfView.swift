@@ -21,7 +21,7 @@ struct ShelfView: View {
             .toolbar { toolbar }
             .shelfModSheet(activeSheet: $isShelfModPresented)
             .drinkModSheet(activeSheet: $isDrinkModPresented)
-            .floatingButton(label: "Add Drink", systemImage: "plus", position: .bottomCenter) {
+            .floatingAction(title: "Add Drink", systemImage: "plus", position: .bottomCenter) {
                 isDrinkModPresented = .add(DrinkModView.Config(shelf: shelf))
             }
     }

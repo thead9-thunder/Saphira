@@ -5,6 +5,7 @@
 //  Created by Thomas Headley on 5/17/25.
 //
 
+import AppIntents
 import SwiftUI
 import SwiftData
 

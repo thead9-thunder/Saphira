@@ -64,13 +64,8 @@ struct DrinkReLogView: View {
                 isTastingModPresented = .add(drink)
             } label: {
                 Text("Log Again")
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.accentColor))
-                    .shadow(radius: 2)
             }
+            .buttonStyle(.borderedProminent)
         }
         .tastingModSheet(activeSheet: $isTastingModPresented)
     }

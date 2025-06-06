@@ -34,7 +34,9 @@ struct BrandModView: View {
 
     var body: some View {
         Form {
-            TextField("Name", text: $name, prompt: Text("Name"))
+            Section {
+                TextField("Name", text: $name, prompt: Text("Name"))
+            }
         }
         .navigationTitle(title)
         .toolbar { toolbar }
@@ -63,7 +65,7 @@ struct BrandModView: View {
             Button {
                 commit()
             } label: {
-                Text("Save")
+                Text("Done")
             }
             .disabled(!isFormValid)
         }

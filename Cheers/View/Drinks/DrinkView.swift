@@ -50,7 +50,7 @@ struct DrinkView: View {
         .background(Color(uiColor: .systemGroupedBackground))
         .drinkModSheet(activeSheet: $isDrinkSheetPresented)
         .tastingModSheet(activeSheet: $isTastingSheetPresented)
-        .floatingButton(label: "Add to Logbook", systemImage: "book.pages", position: .bottomCenter) {
+        .floatingAction(title: "Add to Logbook", systemImage: "book.pages", position: .bottomCenter) {
             isTastingSheetPresented = .add(drink)
         }
     }

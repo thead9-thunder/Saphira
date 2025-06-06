@@ -17,9 +17,7 @@ struct IconToggle: View {
         Toggle(isOn: $isOn) {
             Spacer()
             Label {
-                HStack {
-                    Text(label)
-                }
+                Text(label)
             } icon: {
                 Image(systemName: isOn ? onIcon : offIcon)
                     .animation(.smooth, value: isOn)
@@ -27,7 +25,8 @@ struct IconToggle: View {
             }
             Spacer()
         }
-        .toggleStyle(AnimatedButtonToggleStyle())
+        .toggleStyle(.button)
+//        .toggleStyle(AnimatedButtonToggleStyle())
         .gridCellAnchor(.center)
     }
 } 

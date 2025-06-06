@@ -8,9 +8,9 @@
 import Foundation
 import SwiftUI
 
-
-
 struct CheersView: View {
+    @Environment(\.modelContext) private var context
+    
     @State var selectedDestination: NavigationDestination?
     @State var detailPath: [NavigationDestination] = []
 

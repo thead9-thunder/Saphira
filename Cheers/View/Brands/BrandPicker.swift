@@ -10,47 +10,106 @@ import SwiftData
 import SwiftUI
 
 struct BrandPicker: View {
+    @Environment(\.dismiss) private var dismiss
+
     @Query(Brand.alphabetical) var brands: [Brand]
+
     @Binding var selectedBrand: Brand?
+
     @State private var activeSheet: BrandModView.Mode?
 
     var body: some View {
-        HStack {
-            Text("Brand")
-
-            Spacer()
-
-            Menu {
-                // None
-                Button("None") {
-                    selectedBrand = nil
-                }
-
-                // Existing brands
-                ForEach(brands, id: \.self) { brand in
+        Group {
+            if brands.isEmpty {
+                ContentUnavailableView {
+                    Label("No Brands", systemImage: "storefront.fill")
+                } description: {
+                    Text("Add your first brand to get started")
+                } actions: {
                     Button {
-                        selectedBrand = brand
+                        activeSheet = .add
                     } label: {
-                        if selectedBrand == brand {
-                            Label(brand.name, systemImage: "checkmark")
-                        } else {
-                            Text(brand.name)
+                        Label("Add Brand", systemImage: "plus")
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+            } else {
+                List {
+                    // None option
+                    Button {
+                        select(nil)
+                    } label: {
+                        Label {
+                            HStack {
+                                Text("None")
+                                Spacer()
+                            }
+                            .contentShape(Rectangle())
+                        } icon: {
+                            Image(systemName: selectedBrand == nil ? "checkmark.circle.fill" : "circle")
+                                .foregroundStyle(Color.accentColor)
                         }
                     }
-                }
+                    .buttonStyle(.plain)
 
-                // Create new brand
+                    // Existing brands
+                    ForEach(brands, id: \.self) { brand in
+                        Button {
+                            select(brand)
+                        } label: {
+                            Label {
+                                HStack {
+                                    Text(brand.name)
+                                    Spacer()
+                                }
+                                .contentShape(Rectangle())
+                            } icon: {
+                                Image(systemName: selectedBrand == brand ? "checkmark.circle.fill" : "circle")
+                                    .foregroundStyle(Color.accentColor)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+        }
+        .navigationTitle("Select Brand")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     activeSheet = .add
                 } label: {
-                    Label("Create New Brand", systemImage: "plus")
+                    Image(systemName: "plus")
                 }
-            } label: {
-                Text(selectedBrand?.name ?? "Select a brand")
             }
         }
         .brandModSheet(activeSheet: $activeSheet) { committedBrand in
-            selectedBrand = committedBrand
+            select(committedBrand)
+        }
+    }
+
+    func select(_ brand: Brand?) {
+        selectedBrand = brand
+        dismiss()
+    }
+}
+
+// MARK: - BrandPickerButton
+struct BrandPickerButton: View {
+    @Binding var selectedBrand: Brand?
+    
+    var body: some View {
+        NavigationLink {
+            BrandPicker(selectedBrand: $selectedBrand)
+        } label: {
+            HStack {
+                Text("Brand")
+                    .foregroundStyle(.primary)
+                Spacer()
+
+                Text(selectedBrand?.name ?? "Select a brand")
+                    .foregroundStyle(Color.accentColor)
+            }
         }
     }
 }

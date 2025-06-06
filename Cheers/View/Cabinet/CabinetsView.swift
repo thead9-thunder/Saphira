@@ -22,29 +22,12 @@ struct CabinetsView: View {
         ForEach(cabinets) { cabinet in
             Section {
                 if cabinet.shelves?.count ?? 0 == 0 {
-                    Section {
-                        HStack {
-                            Spacer()
-                            Button {
-                                isShelfModPresented = .add(cabinet)
-                            } label: {
-                                Label {
-                                    Text("Add shelf")
-                                        .font(.system(size: 16, weight: .semibold))
-                                } icon: {
-                                    Image(systemName: "plus")
-                                }
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 12)
-                                .background(RoundedRectangle(cornerRadius: 20).fill(Color.accentColor))
-                                .shadow(radius: 4)
-                            }
-                            Spacer()
-                        }
-                        .listRowBackground(Color.clear)
-                        .shelfModSheet(activeSheet: $isShelfModPresented)
+                    Button {
+                        isShelfModPresented = .add(cabinet)
+                    } label: {
+                        Label("Add Shelf", systemImage: "plus")
                     }
+                    .shelfModSheet(activeSheet: $isShelfModPresented)
                 } else {
                     ShelvesView(shelves: Shelf.inCabinet(cabinet))
                 }

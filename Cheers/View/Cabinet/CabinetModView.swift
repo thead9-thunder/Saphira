@@ -16,7 +16,6 @@ struct CabinetModView: View {
     var onCommit: (Cabinet) -> Void
 
     @State var name: String
-    @State private var showingDeleteConfirmation = false
 
     var isFormValid: Bool { isNameValid }
     var isNameValid: Bool { !name.isEmpty }
@@ -36,42 +35,9 @@ struct CabinetModView: View {
     var body: some View {
         Form {
             TextField("Name", text: $name, prompt: Text("Name"))
-            
-            Section {
-                HStack {
-                    Spacer()
-                    Button(action: commit) {
-                        Label {
-                            Text("Save")
-                                .font(.system(size: 16, weight: .semibold))
-                        } icon: {
-                            Image(systemName: "checkmark")
-                        }
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .background(RoundedRectangle(cornerRadius: 20).fill(Color.accentColor))
-                        .shadow(radius: 4)
-                    }
-                    .disabled(!isFormValid)
-                    Spacer()
-                }
-                .listRowBackground(Color.clear)
-            }
         }
         .navigationTitle(title)
         .toolbar { toolbar }
-        .alert("Delete Cabinet", isPresented: $showingDeleteConfirmation) {
-            Button("Delete", role: .destructive) {
-                if case .edit(let cabinet) = mode {
-                    cabinet.delete()
-                    dismiss()
-                }
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("Are you sure you want to delete this cabinet? This will delete all shelves and drinks in this cabinet. This action cannot be undone.")
-        }
     }
 
     var title: String {
@@ -93,15 +59,13 @@ struct CabinetModView: View {
             }
         }
 
-        if case .edit = mode {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button(role: .destructive) {
-                    showingDeleteConfirmation = true
-                } label: {
-                    Image(systemName: "trash")
-                        .foregroundStyle(.red)
-                }
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                commit()
+            } label: {
+                Text("Done")
             }
+            .disabled(!isFormValid)
         }
     }
 
