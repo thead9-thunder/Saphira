@@ -40,3 +40,20 @@ enum NavigationDestination: Hashable {
         }
     }
 }
+
+private struct NavigationPathKey: EnvironmentKey {
+    static let defaultValue: Binding<[NavigationDestination]> = .constant([])
+}
+
+extension EnvironmentValues {
+    var navigationPath: Binding<[NavigationDestination]> {
+        get { self[NavigationPathKey.self] }
+        set { self[NavigationPathKey.self] = newValue }
+    }
+}
+
+extension View {
+    func navigationPath(_ path: Binding<[NavigationDestination]>) -> some View {
+        environment(\.navigationPath, path)
+    }
+}
