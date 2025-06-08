@@ -12,10 +12,14 @@ import SwiftData
 struct CabinetsView: View {
     @Query var cabinets: [Cabinet]
 
-    @State private var isShelfModPresented: ShelfModView.Mode?
+    @Binding private var isShelfModPresented: ShelfModView.Mode?
 
-    init(cabinets: FetchDescriptor<Cabinet> = Cabinet.alphabetical) {
+    init(
+        cabinets: FetchDescriptor<Cabinet> = Cabinet.alphabetical,
+        isShelfModPresented: Binding<ShelfModView.Mode?>
+    ) {
         _cabinets = Query(cabinets)
+        _isShelfModPresented = isShelfModPresented
     }
 
     var body: some View {
@@ -27,7 +31,6 @@ struct CabinetsView: View {
                     } label: {
                         Label("Add Shelf", systemImage: "plus")
                     }
-                    .shelfModSheet(activeSheet: $isShelfModPresented)
                 } else {
                     ShelvesView(shelves: Shelf.inCabinet(cabinet))
                 }

@@ -20,6 +20,11 @@ struct SidebarView: View {
     @State private var isShelfModPresented: ShelfModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
 
+    init(selectedItem: Binding<NavigationDestination?>) {
+        self._selectedItem = selectedItem
+        self._latestTastings = Query(Tasting.latest(limit: 10))
+    }
+
     var body: some View {
         VStack {
             List(selection: $selectedItem) {
@@ -51,7 +56,7 @@ struct SidebarView: View {
                     )
                 } else {
                     ShelvesView(shelves: Shelf.notInCabinet)
-                    CabinetsView()
+                    CabinetsView(isShelfModPresented: $isShelfModPresented)
                 }
             }
         }
