@@ -41,19 +41,41 @@ enum NavigationDestination: Hashable {
     }
 }
 
-private struct NavigationPathKey: EnvironmentKey {
-    static let defaultValue: Binding<[NavigationDestination]> = .constant([])
+struct NavigationState {
+    var selectedDestination: Binding<NavigationDestination?>
+    var detailPath: Binding<[NavigationDestination]>
+    
+    func navigate(to destination: NavigationDestination) {
+        if selectedDestination.wrappedValue == nil {
+            selectedDestination.wrappedValue = destination
+        } else {
+            detailPath.wrappedValue.append(destination)
+        }
+    }
+}
+
+private struct NavigationStateKey: EnvironmentKey {
+    static let defaultValue = NavigationState(
+        selectedDestination: .constant(nil),
+        detailPath: .constant([])
+    )
 }
 
 extension EnvironmentValues {
-    var navigationPath: Binding<[NavigationDestination]> {
-        get { self[NavigationPathKey.self] }
-        set { self[NavigationPathKey.self] = newValue }
+    var navigationState: NavigationState {
+        get { self[NavigationStateKey.self] }
+        set { self[NavigationStateKey.self] = newValue }
     }
 }
 
 extension View {
-    func navigationPath(_ path: Binding<[NavigationDestination]>) -> some View {
-        environment(\.navigationPath, path)
+    func navigationState(
+        selectedDestination: Binding<NavigationDestination?>,
+        detailPath: Binding<[NavigationDestination]>
+    ) -> some View {
+        environment(\.navigationState, NavigationState(
+            selectedDestination: selectedDestination,
+            detailPath: detailPath
+        ))
     }
 }

@@ -26,6 +26,6 @@ struct CheersView: View {
                     }
             }
         }
-        .navigationPath($detailPath)
+        .navigationState(selectedDestination: $selectedDestination, detailPath: $detailPath)
     }
 }

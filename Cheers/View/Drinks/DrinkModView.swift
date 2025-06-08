@@ -10,7 +10,7 @@ import SwiftUI
 struct DrinkModView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.navigationPath) private var navigationPath
+    @Environment(\.navigationState) private var navigationState
 
     var mode: Mode
     var onCommit: (Drink) -> Void
@@ -90,7 +90,7 @@ struct DrinkModView: View {
             committedDrink = Drink.create(named: name, for: modelContext)
             committedDrink.brand = brand
             committedDrink.shelf = shelf
-            navigationPath.wrappedValue.append(.drink(committedDrink))
+            navigationState.navigate(to: .drink(committedDrink))
         case .edit(let drink):
             drink.name = name
             drink.brand = brand

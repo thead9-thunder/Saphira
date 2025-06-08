@@ -11,6 +11,7 @@ import SwiftUI
 struct ShelfModView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.navigationState) private var navigationState
 
     var mode: Mode
     var onCommit: (Shelf) -> Void
@@ -88,6 +89,7 @@ struct ShelfModView: View {
             } else {
                 committedShelf = Shelf.create(named: name, for: modelContext)
             }
+            navigationState.navigate(to: .shelf(committedShelf))
         case .edit(let shelf):
             shelf.name = name
             shelf.cabinet = cabinet
