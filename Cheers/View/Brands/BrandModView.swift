@@ -11,6 +11,7 @@ import SwiftUI
 struct BrandModView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.navigationState) private var navigationState
 
     var mode: Mode
     var onCommit: (Brand) -> Void
@@ -20,7 +21,11 @@ struct BrandModView: View {
     var isFormValid: Bool { isNameValid }
     var isNameValid: Bool { !name.isEmpty }
 
-    init(mode: Mode, onCommit: @escaping (Brand) -> Void = { _ in }) {
+    init(
+        mode: Mode,
+        navigateOnNew: Bool = true,
+        onCommit: @escaping (Brand) -> Void = { _ in }
+    ) {
         self.mode = mode
         self.onCommit = onCommit
 
@@ -77,6 +82,7 @@ struct BrandModView: View {
         switch mode {
         case .add:
             committedBrand = Brand.create(named: name, for: modelContext)
+            navigationState.navigate(to: .brand(committedBrand))
         case .edit(let brand):
             brand.name = name
             committedBrand = brand
