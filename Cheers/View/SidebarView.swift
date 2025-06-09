@@ -16,6 +16,7 @@ struct SidebarView: View {
     @Query private var shelvesForCount: [Shelf]
     @Query private var latestTastings: [Tasting]
 
+    @State private var isSettingsViewPresented: Bool = false
     @State private var isCabinetModPresented: CabinetModView.Mode?
     @State private var isShelfModPresented: ShelfModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
@@ -60,15 +61,33 @@ struct SidebarView: View {
                 }
             }
         }
+        .toolbar { toolbar }
         .floatingAction(
             title: "Add",
             systemImage: "plus",
             menuItems: floatingMenuItems,
             position: .bottomCenter
         )
+        .sheet(isPresented: $isSettingsViewPresented) {
+            NavigationStack {
+                SettingsView()
+            }
+        }
         .cabinetModSheet(activeSheet: $isCabinetModPresented)
         .shelfModSheet(activeSheet: $isShelfModPresented)
         .drinkModSheet(activeSheet: $isDrinkModPresented)
+    }
+
+    @ToolbarContentBuilder
+    private var toolbar: some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            Button {
+                isSettingsViewPresented = true
+            } label: {
+                Label("Settings", systemImage: "gear")
+                    .labelStyle(.iconOnly)
+            }
+        }
     }
 
     private var floatingMenuItems: [FloatingMenuItem] {
