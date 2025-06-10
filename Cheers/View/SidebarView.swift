@@ -62,12 +62,6 @@ struct SidebarView: View {
             }
         }
         .toolbar { toolbar }
-        .floatingAction(
-            title: "Add",
-            systemImage: "plus",
-            menuItems: floatingMenuItems,
-            position: .bottomCenter
-        )
         .sheet(isPresented: $isSettingsViewPresented) {
             NavigationStack {
                 SettingsView()
@@ -88,36 +82,34 @@ struct SidebarView: View {
                     .labelStyle(.iconOnly)
             }
         }
-    }
 
-    private var floatingMenuItems: [FloatingMenuItem] {
-        var menuItems: [FloatingMenuItem] = [
-            addCabinetMenuItem,
-            addShelfMenuItem,
-        ]
+        ToolbarItem(placement: .bottomBar) {
+            Menu {
+                Button {
+                    isCabinetModPresented = .add
+                } label: {
+                    Label("Add Cabinet", systemImage: "plus")
+                }
 
-        if !shelvesForCount.isEmpty {
-            menuItems.append(addDrinkMenuItem)
-        }
+                Button {
+                    isShelfModPresented = .add()
+                } label: {
+                    Label("Add Shelf", systemImage: "plus")
+                }
 
-        return menuItems;
-    }
-
-    private var addCabinetMenuItem: FloatingMenuItem {
-        .init(title: "Add Cabinet", systemImageName: "plus") {
-            isCabinetModPresented = .add
-        }
-    }
-
-    private var addShelfMenuItem: FloatingMenuItem {
-        .init(title: "Add Shelf", systemImageName: "plus") {
-            isShelfModPresented = .add()
-        }
-    }
-
-    private var addDrinkMenuItem: FloatingMenuItem {
-        .init(title: "Add Drink", systemImageName: "plus") {
-            isDrinkModPresented = .add(DrinkModView.Config())
+                if !shelvesForCount.isEmpty {
+                    Button {
+                        isDrinkModPresented = .add(DrinkModView.Config())
+                    } label: {
+                        Label("Add Drink", systemImage: "plus")
+                    }
+                }
+            } label: {
+                Button {} label: {
+                    Label("Add", systemImage: "plus")
+                }
+                .buttonStyle(.borderedProminent)
+            }
         }
     }
 }

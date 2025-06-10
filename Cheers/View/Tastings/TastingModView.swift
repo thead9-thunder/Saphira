@@ -64,7 +64,7 @@ struct TastingModView: View {
             Button {
                 dismiss()
             } label: {
-                Text("Cancel")
+                Label("Cancel", systemImage: "xmark")
             }
         }
 
@@ -72,7 +72,7 @@ struct TastingModView: View {
             Button {
                 commit()
             } label: {
-                Text("Done")
+                Label("Done", systemImage: "checkmark")
             }
             .disabled(!isFormValid)
         }

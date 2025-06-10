@@ -22,10 +22,20 @@ struct BrandsView: View {
             }
         }
         .navigationTitle("Brands")
-        .floatingAction(title: "Add", systemImage: "plus", position: .bottomCenter) {
-            activeSheet = .add
-        }
+        .toolbar { toolbar }
         .brandModSheet(activeSheet: $activeSheet)
+    }
+
+    @ToolbarContentBuilder
+    private var toolbar: some ToolbarContent {
+        ToolbarItem(placement: .bottomBar) {
+            Button {
+                activeSheet = .add
+            } label: {
+                Label("Add", systemImage: "plus")
+            }
+            .buttonStyle(.borderedProminent)
+        }
     }
 }
 

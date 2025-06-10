@@ -50,9 +50,6 @@ struct DrinkView: View {
         .background(Color(uiColor: .systemGroupedBackground))
         .drinkModSheet(activeSheet: $isDrinkSheetPresented)
         .tastingModSheet(activeSheet: $isTastingSheetPresented)
-        .floatingAction(title: "Add to Logbook", systemImage: "book.pages", position: .bottomCenter) {
-            isTastingSheetPresented = .add(drink)
-        }
     }
 
     @ToolbarContentBuilder
@@ -63,6 +60,15 @@ struct DrinkView: View {
             } label: {
                 Label("Edit", systemImage: "pencil")
             }
+        }
+
+        ToolbarItem(placement: .bottomBar) {
+            Button {
+                isTastingSheetPresented = .add(drink)
+            } label: {
+                Label("Add to Logbook", systemImage: "book.pages")
+            }
+            .buttonStyle(.borderedProminent)
         }
     }
 }

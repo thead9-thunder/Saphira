@@ -65,7 +65,7 @@ struct ShelfModView: View {
             Button {
                 dismiss()
             } label: {
-                Text("Cancel")
+                Label("Cancel", systemImage: "xmark")
             }
         }
 
@@ -73,7 +73,7 @@ struct ShelfModView: View {
             Button {
                 commit()
             } label: {
-                Text("Done")
+                Label("Done", systemImage: "checkmark")
             }
             .disabled(!isFormValid)
         }

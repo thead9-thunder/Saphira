@@ -68,7 +68,7 @@ struct DrinkModView: View {
             Button {
                 dismiss()
             } label: {
-                Text("Cancel")
+                Label("Cancel", systemImage: "xmark")
             }
         }
 
@@ -76,7 +76,7 @@ struct DrinkModView: View {
             Button {
                 commit()
             } label: {
-                Text("Done")
+                Label("Done", systemImage: "checkmark")
             }
             .disabled(!isFormValid)
         }
