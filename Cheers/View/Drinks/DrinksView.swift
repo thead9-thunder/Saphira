@@ -14,6 +14,8 @@ struct DrinksView: View {
 
     @State private var isDrinkModPresented: DrinkModView.Mode?
 
+    private var pinnedDrinks: [Drink] { drinks.filter { $0.isPinned } }
+
     private var unavailableLabel: String
     private var unavailableSystemImage: String
     private var unavailableDescription: String
@@ -39,6 +41,18 @@ struct DrinksView: View {
                     if latestTastings.count != 0 {
                         Section("Latest Tastings") {
                             TastingsReLogCard(tastings: _latestTastings)
+                        }
+                    }
+
+                    if !pinnedDrinks.isEmpty {
+                        Section {
+                            ForEach(pinnedDrinks) { drink in
+                                NavigationLink(value: NavigationDestination.drink(drink)) {
+                                    DrinkCellView(drink: drink)
+                                }
+                            }
+                        } header: {
+                            Label("Pinned", systemImage: "pin")
                         }
                     }
 

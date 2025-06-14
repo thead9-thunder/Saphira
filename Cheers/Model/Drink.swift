@@ -17,6 +17,8 @@ class Drink {
     var isFavorite: Bool = false
     var isInStock: Bool = false
 
+    var isPinned: Bool = false
+
     @Relationship(deleteRule: .nullify)
     var brand: Brand?
 

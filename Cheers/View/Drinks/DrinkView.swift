@@ -58,7 +58,7 @@ struct DrinkView: View {
             Button {
                 isDrinkSheetPresented = .edit(drink)
             } label: {
-                Label("Edit", systemImage: "pencil")
+                Label("Info", systemImage: "info")
             }
         }
 

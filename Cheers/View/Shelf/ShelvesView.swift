@@ -16,6 +16,10 @@ struct ShelvesView: View {
         _shelves = Query(shelves)
     }
 
+    init(shelves: Query<Shelf, Array<Shelf>>) {
+        _shelves = shelves
+    }
+
     var body: some View {
         ForEach(shelves) { shelf in
             NavigationLink(value: NavigationDestination.shelf(shelf)) {

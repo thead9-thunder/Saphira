@@ -65,6 +65,7 @@ struct CabinetModView: View {
             } label: {
                 Label("Done", systemImage: "checkmark")
             }
+            .tint(.accentColor)
             .disabled(!isFormValid)
         }
     }

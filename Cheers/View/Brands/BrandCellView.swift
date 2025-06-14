@@ -13,7 +13,9 @@ struct BrandCellView: View {
 
     @Query private var drinks: [Drink]
 
-    @State private var activeSheet: BrandModView.Mode?
+    @State private var isBrandModPresented: BrandModView.Mode?
+    @State private var isDrinkModPresented: DrinkModView.Mode?
+    @State private var showDeleteConfirmation = false
 
     init(brand: Brand) {
         self.brand = brand
@@ -36,21 +38,55 @@ struct BrandCellView: View {
         }
         .contentShape(Rectangle())
         .contextMenu { contextMenu }
-        .brandModSheet(activeSheet: $activeSheet)
+        .swipeActions(edge: .trailing) {
+            addDrinkButton
+            deleteButton
+            infoButton
+        }
+        .brandModSheet(activeSheet: $isBrandModPresented)
+        .drinkModSheet(activeSheet: $isDrinkModPresented)
+        .confirmationDialog("Delete Brand?", isPresented: $showDeleteConfirmation) {
+            Button("Delete Brand", role: .destructive) {
+                brand.delete()
+            }
+        } message: {
+            Text("Are you sure you want to delete this brand?\n\nThis action cannot be undone.")
+        }
     }
 
     @ViewBuilder
     var contextMenu: some View {
-        Button(action: {
-            activeSheet = .edit(brand)
-        }) {
-            Label("Edit", systemImage: "pencil")
-        }
+        infoButton
+        addDrinkButton
 
-        Button(role: .destructive, action: {
-            brand.delete()
-        }) {
+        Divider()
+
+        deleteButton
+    }
+
+    var infoButton: some View {
+        Button {
+            isBrandModPresented = .edit(brand)
+        } label: {
+            Label("Info", systemImage: "info")
+        }
+    }
+
+    var addDrinkButton: some View {
+        Button {
+            isDrinkModPresented = .add(DrinkModView.Config(brand: brand))
+        } label: {
+            Label("Add Drink", systemImage: "plus")
+        }
+        .tint(.accentColor)
+    }
+
+    var deleteButton: some View {
+        Button {
+            showDeleteConfirmation = true
+        } label: {
             Label("Delete", systemImage: "trash")
         }
+        .tint(.red)
     }
 }

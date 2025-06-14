@@ -29,7 +29,7 @@ struct ShelfView: View {
             Button {
                 isShelfModPresented = .edit(shelf)
             } label: {
-                Label("Edit", systemImage: "pencil")
+                Label("Info", systemImage: "info")
             }
         }
 

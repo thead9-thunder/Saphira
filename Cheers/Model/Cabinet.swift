@@ -40,4 +40,11 @@ extension Cabinet {
             sortBy: [SortDescriptor(\.name, order: .forward)]
         )
     }
+
+    static var forCount: FetchDescriptor<Cabinet> {
+        var descriptor = FetchDescriptor<Cabinet>()
+        descriptor.propertiesToFetch = []
+
+        return descriptor
+    }
 }

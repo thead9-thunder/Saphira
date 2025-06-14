@@ -13,6 +13,7 @@ struct SidebarView: View {
     @Binding var selectedItem: NavigationDestination?
 
     @Query private var cabinetsForCount: [Cabinet]
+    @Query private var pinnedShelves: [Shelf]
     @Query private var shelvesForCount: [Shelf]
     @Query private var latestTastings: [Tasting]
 
@@ -23,6 +24,9 @@ struct SidebarView: View {
 
     init(selectedItem: Binding<NavigationDestination?>) {
         self._selectedItem = selectedItem
+        self._pinnedShelves = Query(Shelf.pinned)
+        self._cabinetsForCount = Query(Cabinet.forCount)
+        self._shelvesForCount = Query(Shelf.forCount)
         self._latestTastings = Query(Tasting.latest(limit: 10))
     }
 
@@ -56,7 +60,20 @@ struct SidebarView: View {
                         description: Text("Start your journey by pressing the button below")
                     )
                 } else {
-                    ShelvesView(shelves: Shelf.notInCabinet)
+                    if !pinnedShelves.isEmpty {
+                        Section {
+                            ShelvesView(shelves: _pinnedShelves)
+                        } header: {
+                            Label("Pinned", systemImage: "pin")
+                        }
+                    }
+
+                    Section {
+                        ShelvesView(shelves: Shelf.notInCabinet)
+                    } header: {
+                        Text("No Cabinet")
+                    }
+
                     CabinetsView(isShelfModPresented: $isShelfModPresented)
                 }
             }

@@ -13,6 +13,7 @@ struct CabinetHeaderView: View {
 
     @State private var isCabinetModPresented: CabinetModView.Mode?
     @State private var isShelfModPresented: ShelfModView.Mode?
+    @State private var showDeleteConfirmation = false
 
     var body: some View {
         HStack {
@@ -23,24 +24,53 @@ struct CabinetHeaderView: View {
             Spacer()
 
             Menu {
-                Button {
-                    isShelfModPresented = .add(cabinet)
-                } label: {
-                    Label("Add Shelf", systemImage: "plus")
-                }
+                infoButton
+                addShelfButton
 
-                Button {
-                    isCabinetModPresented = .edit(cabinet)
-                } label: {
-                    Label("Edit Cabinet", systemImage: "pencil")
-                }
+                Divider()
+
+                deleteButton
             } label: {
                 Label("Add Shelf", systemImage: "ellipsis")
                     .labelStyle(.iconOnly)
+                    .frame(minWidth: 44, minHeight: 44)
             }
+            .contentShape(Rectangle())
         }
         .cabinetModSheet(activeSheet: $isCabinetModPresented)
         .shelfModSheet(activeSheet: $isShelfModPresented)
-        .textCase(nil)
+        .confirmationDialog("Delete Cabinet?", isPresented: $showDeleteConfirmation) {
+            Button("Delete Cabinet", role: .destructive) {
+                cabinet.delete()
+            }
+        } message: {
+            Text("Are you sure you want to delete this cabinet?\n\nThis will also delete all of its shelves, drinks, and associated tastings.\n\nThis action cannot be undone.")
+        }
+    }
+
+    var infoButton: some View {
+        Button {
+            isCabinetModPresented = .edit(cabinet)
+        } label: {
+            Label("Info", systemImage: "info")
+        }
+    }
+
+    var addShelfButton: some View {
+        Button {
+            isShelfModPresented = .add(cabinet)
+        } label: {
+            Label("Add Shelf", systemImage: "plus")
+        }
+        .tint(.accentColor)
+    }
+
+    var deleteButton: some View {
+        Button {
+            showDeleteConfirmation = true
+        } label: {
+            Label("Delete", systemImage: "trash")
+        }
+        .tint(.red)
     }
 }

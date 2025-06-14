@@ -13,6 +13,7 @@ class Shelf {
     var id: UUID
     var createdAt: Date
     var name: String
+    var isPinned: Bool = false
 
     @Relationship(inverse: \Cabinet.shelves)
     var cabinet: Cabinet?
@@ -52,6 +53,20 @@ extension Shelf {
         FetchDescriptor<Shelf>(
             sortBy: [SortDescriptor(\.name, order: .forward)]
         )
+    }
+
+    static var pinned: FetchDescriptor<Shelf> {
+        FetchDescriptor<Shelf>(
+            predicate: #Predicate { $0.isPinned },
+            sortBy: [SortDescriptor(\.name, order: .forward)]
+        )
+    }
+
+    static var forCount: FetchDescriptor<Shelf> {
+        var descriptor = FetchDescriptor<Shelf>()
+        descriptor.propertiesToFetch = []
+
+        return descriptor
     }
 
     static var notInCabinet: FetchDescriptor<Shelf> {

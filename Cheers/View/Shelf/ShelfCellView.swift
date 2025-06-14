@@ -14,8 +14,10 @@ struct ShelfCellView: View {
 
     @Query private var drinks: [Drink]
 
-    @State private var activeSheet: ShelfModView.Mode?
-    
+    @State private var isShelfModPresented: ShelfModView.Mode?
+    @State private var isDrinkModPresented: DrinkModView.Mode?
+    @State private var showDeleteConfirmation = false
+
     init(shelf: Shelf) {
         self.shelf = shelf
         self._drinks = Query(Drink.on(shelf: shelf))
@@ -38,21 +40,71 @@ struct ShelfCellView: View {
         }
         .contentShape(Rectangle())
         .contextMenu { contextMenu }
-        .shelfModSheet(activeSheet: $activeSheet)
+        .swipeActions(edge: .leading) {
+            pinButton
+        }
+        .swipeActions(edge: .trailing) {
+            addDrinkButton
+            deleteButton
+            infoButton
+        }
+        .shelfModSheet(activeSheet: $isShelfModPresented)
+        .drinkModSheet(activeSheet: $isDrinkModPresented)
+        .confirmationDialog("Delete Shelf?", isPresented: $showDeleteConfirmation) {
+            Button("Delete Shelf", role: .destructive) {
+                shelf.delete()
+            }
+        } message: {
+            Text("Are you sure you want to delete this shelf?\n\nThis will also delete all of its drinks and associated tastings.\n\nThis action cannot be undone.")
+        }
     }
 
     @ViewBuilder
     var contextMenu: some View {
-        Button(action: {
-            activeSheet = .edit(shelf)
-        }) {
-            Label("Edit", systemImage: "pencil")
-        }
+        infoButton
+        pinButton
+        addDrinkButton
 
-        Button(role: .destructive, action: {
-            shelf.delete()
-        }) {
+        Divider()
+
+        deleteButton
+    }
+
+    var pinButton: some View {
+        Button {
+            shelf.isPinned.toggle()
+        } label: {
+            Label(
+                shelf.isPinned ? "Unpin shelf" : "Pin shelf",
+                systemImage: shelf.isPinned ? "pin.slash" : "pin"
+            )
+        }
+        .tint(.yellow)
+    }
+
+    var infoButton: some View {
+        Button {
+            isShelfModPresented = .edit(shelf)
+        } label: {
+            Label("Info", systemImage: "info")
+        }
+    }
+
+    var addDrinkButton: some View {
+        Button {
+            isDrinkModPresented = .add(DrinkModView.Config(shelf: shelf))
+        } label: {
+            Label("Add Drink", systemImage: "plus")
+        }
+        .tint(.accentColor)
+    }
+
+    var deleteButton: some View {
+        Button {
+            showDeleteConfirmation = true
+        } label: {
             Label("Delete", systemImage: "trash")
         }
+        .tint(.red)
     }
 }
