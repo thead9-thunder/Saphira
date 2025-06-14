@@ -12,9 +12,23 @@ import SwiftData
 struct BrandView: View {
     var brand: Brand
 
+    @State private var isBrandModPresented: BrandModView.Mode?
+
     var body: some View {
         DrinksView(config: drinksViewConfig)
             .navigationTitle(brand.name)
+            .brandModSheet(activeSheet: $isBrandModPresented)
+    }
+
+    @ToolbarContentBuilder
+    var toolbar: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                isBrandModPresented = .edit(brand)
+            } label: {
+                Label("Info", systemImage: "info")
+            }
+        }
     }
 }
 
