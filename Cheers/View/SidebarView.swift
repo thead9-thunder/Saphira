@@ -34,25 +34,29 @@ struct SidebarView: View {
 
     var body: some View {
         VStack {
-            List(selection: $selectedItem) {
-                specialShelvesSection
-
-                if !latestTastings.isEmpty {
-                    latestTastingsSection
-                }
-
-                if shelvesForCount.isEmpty && cabinetsForCount.isEmpty {
-                    ContentUnavailableView(
-                        "Welcome to Cheers!",
-                        systemImage: "cabinet.fill",
-                        description: Text("Start your journey by pressing the button below")
-                    )
-                } else {
-                    cabinetsAndShelvesSection
+            if isSearchPresented {
+                SearchView(searchText: searchText)
+            } else {
+                List(selection: $selectedItem) {
+                    specialShelvesSection
+                    
+                    if !latestTastings.isEmpty {
+                        latestTastingsSection
+                    }
+                    
+                    if shelvesForCount.isEmpty && cabinetsForCount.isEmpty {
+                        ContentUnavailableView(
+                            "Welcome to Cheers!",
+                            systemImage: "cabinet.fill",
+                            description: Text("Start your journey by pressing the button below")
+                        )
+                    } else {
+                        cabinetsAndShelvesSection
+                    }
                 }
             }
-            .searchable(text: $searchText, isPresented: $isSearchPresented)
         }
+        .searchable(text: $searchText, isPresented: $isSearchPresented)
         .toolbar { toolbar }
         .sheet(isPresented: $isSettingsViewPresented) {
             NavigationStack {
@@ -66,53 +70,61 @@ struct SidebarView: View {
 
     @ToolbarContentBuilder
     private var toolbar: some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
-            Button {
-                isSettingsViewPresented = true
-            } label: {
-                Label("Settings", systemImage: "gear")
-                    .labelStyle(.iconOnly)
-            }
-        }
-
-        ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                isSearchPresented = true
-            } label: {
-                Label("Search", systemImage: "magnifyingglass")
-                    .labelStyle(.iconOnly)
-            }
-        }
-
         if !isSearchPresented {
-            ToolbarItem(placement: .bottomBar) {
-                Menu {
-                    Button {
-                        isCabinetModPresented = .add
-                    } label: {
-                        Label("Add Cabinet", systemImage: "plus")
-                    }
-
-                    Button {
-                        isShelfModPresented = .add()
-                    } label: {
-                        Label("Add Shelf", systemImage: "plus")
-                    }
-
-                    if !shelvesForCount.isEmpty {
-                        Button {
-                            isDrinkModPresented = .add(DrinkModView.Config())
-                        } label: {
-                            Label("Add Drink", systemImage: "plus")
-                        }
-                    }
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    isSettingsViewPresented = true
                 } label: {
-                    Button {} label: {
-                        Label("Add", systemImage: "plus")
-                    }
-                    .buttonStyle(.borderedProminent)
+                    Label("Settings", systemImage: "gear")
+                        .labelStyle(.iconOnly)
                 }
             }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    isSearchPresented = true
+                } label: {
+                    Label("Search", systemImage: "magnifyingglass")
+                        .labelStyle(.iconOnly)
+                }
+            }
+            
+            ToolbarItem(placement: .bottomBar) {
+                addMenu
+            }
+        }
+    }
+
+    private var searchView: some View {
+        Text("Search")
+    }
+
+    private var addMenu: some View {
+        Menu {
+            Button {
+                isCabinetModPresented = .add
+            } label: {
+                Label("Add Cabinet", systemImage: "plus")
+            }
+
+            Button {
+                isShelfModPresented = .add()
+            } label: {
+                Label("Add Shelf", systemImage: "plus")
+            }
+
+            if !shelvesForCount.isEmpty {
+                Button {
+                    isDrinkModPresented = .add(DrinkModView.Config())
+                } label: {
+                    Label("Add Drink", systemImage: "plus")
+                }
+            }
+        } label: {
+            Button {} label: {
+                Label("Add", systemImage: "plus")
+            }
+            .buttonStyle(.borderedProminent)
         }
     }
 
