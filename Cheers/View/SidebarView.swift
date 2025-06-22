@@ -70,28 +70,20 @@ struct SidebarView: View {
 
     @ToolbarContentBuilder
     private var toolbar: some ToolbarContent {
-        if !isSearchPresented {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    isSettingsViewPresented = true
-                } label: {
-                    Label("Settings", systemImage: "gear")
-                        .labelStyle(.iconOnly)
-                }
+        ToolbarItem(placement: .topBarLeading) {
+            Button {
+                isSettingsViewPresented = true
+            } label: {
+                Label("Settings", systemImage: "gear")
+                    .labelStyle(.iconOnly)
             }
-            
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    isSearchPresented = true
-                } label: {
-                    Label("Search", systemImage: "magnifyingglass")
-                        .labelStyle(.iconOnly)
-                }
-            }
-            
-            ToolbarItem(placement: .bottomBar) {
-                addMenu
-            }
+        }
+        
+        // MARK: Bottom Bar
+        DefaultToolbarItem(kind: .search, placement: .bottomBar)
+        ToolbarSpacer(placement: .bottomBar)
+        ToolbarItem(placement: .bottomBar) {
+            addMenu
         }
     }
 
@@ -121,10 +113,7 @@ struct SidebarView: View {
                 }
             }
         } label: {
-            Button {} label: {
-                Label("Add", systemImage: "plus")
-            }
-            .buttonStyle(.borderedProminent)
+            Label("Add", systemImage: "plus")
         }
     }
 

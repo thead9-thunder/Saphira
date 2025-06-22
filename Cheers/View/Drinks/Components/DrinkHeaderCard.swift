@@ -28,8 +28,7 @@ struct DrinkHeaderCard: View {
                 Label {
                     Group {
                         if let cabinet = shelf.cabinet {
-                            Text("\(shelf.name) in ") +
-                            Text(cabinet.name).bold()
+                            Text("\(shelf.name) in \(Text(cabinet.name).bold())")
                         } else {
                             Text(shelf.name)
                         }
