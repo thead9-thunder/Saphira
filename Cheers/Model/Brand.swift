@@ -34,10 +34,34 @@ extension Brand {
     }
 }
 
+// MARK: Predicates
 extension Brand {
+    static func searchPredicate(searchText: String) -> Predicate<Brand> {
+        #Predicate { brand in
+            searchText.isEmpty || brand.name.localizedStandardContains(searchText)
+        }
+    }
+}
+
+// MARK: Sort Descriptors
+extension Brand {
+    static func nameSortDescriptor(order: SortOrder = .forward) -> [SortDescriptor<Brand>] {
+        [SortDescriptor(\.name, order: order)]
+    }
+}
+
+// MARK: Fetch Descriptors
+extension Brand {
+    static func search(searchText: String) -> FetchDescriptor<Brand> {
+        FetchDescriptor<Brand>(
+            predicate: searchPredicate(searchText: searchText),
+            sortBy: nameSortDescriptor()
+        )
+    }
+    
     static var alphabetical: FetchDescriptor<Brand> {
         FetchDescriptor<Brand>(
-            sortBy: [SortDescriptor(\.name, order: .forward)]
+            sortBy: nameSortDescriptor()
         )
     }
 }

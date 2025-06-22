@@ -14,13 +14,22 @@ struct ShelfView: View {
 
     @State private var isShelfModPresented: ShelfModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
+    @State private var searchText = ""
+    @State private var isSearchPresented = false
 
     var body: some View {
-        DrinksView(config: drinksViewConfig)
-            .navigationTitle(shelf.name)
-            .toolbar { toolbar }
-            .shelfModSheet(activeSheet: $isShelfModPresented)
-            .drinkModSheet(activeSheet: $isDrinkModPresented)
+        VStack {
+            if isSearchPresented {
+                SearchView(searchText: searchText, mode: .shelf(shelf))
+            } else {
+                DrinksView(config: drinksViewConfig)
+            }
+        }
+        .navigationTitle(shelf.name)
+        .searchable(text: $searchText, isPresented: $isSearchPresented)
+        .toolbar { toolbar }
+        .shelfModSheet(activeSheet: $isShelfModPresented)
+        .drinkModSheet(activeSheet: $isDrinkModPresented)
     }
 
     @ToolbarContentBuilder
@@ -33,13 +42,14 @@ struct ShelfView: View {
             }
         }
 
+        DefaultToolbarItem(kind: .search, placement: .bottomBar)
+        ToolbarSpacer(placement: .bottomBar)
         ToolbarItem(placement: .bottomBar) {
             Button {
                 isDrinkModPresented = .add(DrinkModView.Config(shelf: shelf))
             } label: {
                 Label("Add Drink", systemImage: "plus")
             }
-            .buttonStyle(.borderedProminent)
         }
     }
 

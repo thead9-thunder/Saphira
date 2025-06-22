@@ -14,6 +14,7 @@ struct SidebarView: View {
 
     @Query private var cabinetsForCount: [Cabinet]
     @Query private var pinnedShelves: [Shelf]
+    @Query private var shelvesNotInCabinet: [Shelf]
     @Query private var shelvesForCount: [Shelf]
     @Query private var latestTastings: [Tasting]
 
@@ -27,6 +28,7 @@ struct SidebarView: View {
     init(selectedItem: Binding<NavigationDestination?>) {
         self._selectedItem = selectedItem
         self._pinnedShelves = Query(Shelf.pinned)
+        self._shelvesNotInCabinet = Query(Shelf.notInCabinet)
         self._cabinetsForCount = Query(Cabinet.forCount)
         self._shelvesForCount = Query(Shelf.forCount)
         self._latestTastings = Query(Tasting.latest(limit: 10))
@@ -35,7 +37,7 @@ struct SidebarView: View {
     var body: some View {
         VStack {
             if isSearchPresented {
-                SearchView(searchText: searchText)
+                SearchView(searchText: searchText, mode: .all($selectedItem))
             } else {
                 List(selection: $selectedItem) {
                     specialShelvesSection
@@ -79,7 +81,6 @@ struct SidebarView: View {
             }
         }
         
-        // MARK: Bottom Bar
         DefaultToolbarItem(kind: .search, placement: .bottomBar)
         ToolbarSpacer(placement: .bottomBar)
         ToolbarItem(placement: .bottomBar) {
@@ -164,11 +165,14 @@ struct SidebarView: View {
             }
         }
 
-        Section {
-            ShelvesView(shelves: Shelf.notInCabinet)
-        } header: {
-            Text("No Cabinet")
+        if !shelvesNotInCabinet.isEmpty {
+            Section {
+                ShelvesView(shelves: _shelvesNotInCabinet)
+            } header: {
+                Text("No Cabinet")
+            }
         }
+        
 
         CabinetsView(isShelfModPresented: $isShelfModPresented)
     }

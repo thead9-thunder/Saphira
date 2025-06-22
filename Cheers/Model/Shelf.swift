@@ -48,17 +48,53 @@ extension Shelf {
     }
 }
 
+// MARK: Predicates
 extension Shelf {
+    static func searchPredicate(searchText: String) -> Predicate<Shelf> {
+        #Predicate { shelf in
+            searchText.isEmpty || shelf.name.localizedStandardContains(searchText)
+        }
+    }
+    
+    static func pinnedPredicate() -> Predicate<Shelf> {
+        #Predicate { $0.isPinned }
+    }
+    
+    static func notInCabinetPredicate() -> Predicate<Shelf> {
+        #Predicate { $0.cabinet == nil }
+    }
+    
+    static func inCabinetPredicate(cabinetID: UUID) -> Predicate<Shelf> {
+        #Predicate { $0.cabinet?.id == cabinetID }
+    }
+}
+
+// MARK: Sort Descriptors
+extension Shelf {
+    static func nameSortDescriptor(order: SortOrder = .forward) -> [SortDescriptor<Shelf>] {
+        [SortDescriptor(\.name, order: order)]
+    }
+}
+
+// MARK: Fetch Descriptors
+extension Shelf {
+    static func search(searchText: String) -> FetchDescriptor<Shelf> {
+        FetchDescriptor<Shelf>(
+            predicate: searchPredicate(searchText: searchText),
+            sortBy: nameSortDescriptor()
+        )
+    }
+    
     static var alphabetical: FetchDescriptor<Shelf> {
         FetchDescriptor<Shelf>(
-            sortBy: [SortDescriptor(\.name, order: .forward)]
+            sortBy: nameSortDescriptor()
         )
     }
 
     static var pinned: FetchDescriptor<Shelf> {
         FetchDescriptor<Shelf>(
-            predicate: #Predicate { $0.isPinned },
-            sortBy: [SortDescriptor(\.name, order: .forward)]
+            predicate: pinnedPredicate(),
+            sortBy: nameSortDescriptor()
         )
     }
 
@@ -71,16 +107,16 @@ extension Shelf {
 
     static var notInCabinet: FetchDescriptor<Shelf> {
         FetchDescriptor<Shelf>(
-            predicate: #Predicate { $0.cabinet == nil },
-            sortBy: [SortDescriptor(\.name, order: .forward)]
+            predicate: notInCabinetPredicate(),
+            sortBy: nameSortDescriptor()
         )
     }
 
     static func inCabinet(_ cabinet: Cabinet) -> FetchDescriptor<Shelf> {
         let cabinetID = cabinet.id
         return FetchDescriptor<Shelf>(
-            predicate: #Predicate { $0.cabinet?.id == cabinetID},
-            sortBy: [SortDescriptor(\.name, order: .forward)]
+            predicate: inCabinetPredicate(cabinetID: cabinetID),
+            sortBy: nameSortDescriptor()
         )
     }
 }
