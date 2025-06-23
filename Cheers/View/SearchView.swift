@@ -31,6 +31,21 @@ struct SearchView: View {
             self._drinks = Query(Drink.searchOnShelf(searchText: searchText, shelf: shelf))
             self._shelves = Query(filter: #Predicate { _ in false })
             self._brands = Query(filter: #Predicate { _ in false })
+            
+        case .brands:
+            self._drinks = Query(filter: #Predicate { _ in false })
+            self._shelves = Query(filter: #Predicate { _ in false })
+            self._brands = Query(Brand.search(searchText: searchText))
+            
+        case .brand(let brand):
+            self._drinks = Query(Drink.searchByBrand(searchText: searchText, brand: brand))
+            self._shelves = Query(filter: #Predicate { _ in false })
+            self._brands = Query(filter: #Predicate { _ in false })
+            
+        case .drinks(let drinksDescriptor):
+            self._drinks = Query(Drink.searchInQuery(searchText: searchText, descriptor: drinksDescriptor))
+            self._shelves = Query(filter: #Predicate { _ in false })
+            self._brands = Query(filter: #Predicate { _ in false })
         }
     }
 
@@ -48,13 +63,17 @@ struct SearchView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
-    // MARK: - Computed Properties
-    
     private var selectionBinding: Binding<NavigationDestination?>? {
         switch mode {
         case .all(let binding):
             return binding
         case .shelf:
+            return nil
+        case .brands:
+            return nil
+        case .brand:
+            return nil
+        case .drinks:
             return nil
         }
     }
@@ -73,11 +92,16 @@ struct SearchView: View {
             return shelves.isEmpty && drinks.isEmpty && brands.isEmpty
         case .shelf:
             return drinks.isEmpty
+        case .brands:
+            return brands.isEmpty
+        case .brand:
+            return drinks.isEmpty
+        case .drinks:
+            return drinks.isEmpty
         }
     }
     
     // MARK: - Content Views
-    
     private var emptyStateView: some View {
         ContentUnavailableView(
             emptyStateTitle,
@@ -95,17 +119,6 @@ struct SearchView: View {
     }
     
     private var contentSections: some View {
-        Group {
-            switch mode {
-            case .all:
-                allModeSections
-            case .shelf:
-                shelfModeSections
-            }
-        }
-    }
-    
-    private var allModeSections: some View {
         Group {
             if !shelves.isEmpty {
                 sectionView(title: "Shelves", items: shelves) { shelf in
@@ -132,17 +145,7 @@ struct SearchView: View {
             }
         }
     }
-    
-    private var shelfModeSections: some View {
-        sectionView(title: "Drinks", items: drinks) { drink in
-            DrinkCellView(drink: drink)
-        } destination: { drink in
-            NavigationDestination.drink(drink)
-        }
-    }
         
-    // MARK: - Helper Views
-    
     private func sectionView<T: Identifiable>(
         title: String,
         items: [T],
@@ -165,6 +168,12 @@ struct SearchView: View {
             return "Search"
         case .shelf(let shelf):
             return "Search \(shelf.name)"
+        case .brands:
+            return "Search Brands"
+        case .brand(let brand):
+            return "Search \(brand.name)"
+        case .drinks:
+            return "Search Drinks"
         }
     }
     
@@ -174,6 +183,12 @@ struct SearchView: View {
             return "Enter a search term to find shelves, drinks, or brands"
         case .shelf:
             return "Enter a search term to find drinks on this shelf"
+        case .brands:
+            return "Enter a search term to find brands"
+        case .brand(let brand):
+            return "Enter a search term to find drinks by \(brand.name)"
+        case .drinks:
+            return "Enter a search term to find drinks"
         }
     }
     
@@ -183,6 +198,12 @@ struct SearchView: View {
             return "No shelves, drinks, or brands found matching \"\(searchText)\""
         case .shelf(let shelf):
             return "No drinks found on \(shelf.name) matching \"\(searchText)\""
+        case .brands:
+            return "No brands found matching \"\(searchText)\""
+        case .brand(let brand):
+            return "No drinks found by \(brand.name) matching \"\(searchText)\""
+        case .drinks:
+            return "No drinks found matching \"\(searchText)\""
         }
     }
 }
@@ -191,5 +212,8 @@ extension SearchView {
     enum Mode {
         case all(Binding<NavigationDestination?>)
         case shelf(Shelf)
+        case brands
+        case brand(Brand)
+        case drinks(FetchDescriptor<Drink>)
     }
 }

@@ -13,11 +13,22 @@ struct BrandView: View {
     var brand: Brand
 
     @State private var isBrandModPresented: BrandModView.Mode?
+    @State private var isDrinkModPresented: DrinkModView.Mode?
+    @State private var searchText = ""
+    @State private var isSearchPresented = false
 
     var body: some View {
-        DrinksView(config: drinksViewConfig)
-            .navigationTitle(brand.name)
-            .brandModSheet(activeSheet: $isBrandModPresented)
+        VStack {
+            if isSearchPresented {
+                SearchView(searchText: searchText, mode: .brand(brand))
+            } else {
+                DrinksView(config: drinksViewConfig)
+            }
+        }
+        .navigationTitle(brand.name)
+        .searchable(text: $searchText, isPresented: $isSearchPresented)
+        .toolbar { toolbar }
+        .brandModSheet(activeSheet: $isBrandModPresented)
     }
 
     @ToolbarContentBuilder
@@ -27,6 +38,16 @@ struct BrandView: View {
                 isBrandModPresented = .edit(brand)
             } label: {
                 Label("Info", systemImage: "info")
+            }
+        }
+        
+        DefaultToolbarItem(kind: .search, placement: .bottomBar)
+        ToolbarSpacer(placement: .bottomBar)
+        ToolbarItem(placement: .bottomBar) {
+            Button {
+                isDrinkModPresented = .add(DrinkModView.Config(brand: brand))
+            } label: {
+                Label("Add Drink", systemImage: "plus")
             }
         }
     }

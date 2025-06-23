@@ -102,6 +102,40 @@ extension Drink {
         )
     }
     
+    static func searchByBrand(searchText: String, brand: Brand) -> FetchDescriptor<Drink> {
+        let brandPredicate = byBrandPredicate(brandID: brand.id)
+        let searchPredicate = searchPredicate(searchText: searchText)
+        
+        let fullPredicate = #Predicate<Drink> { drink in
+            brandPredicate.evaluate(drink) && searchPredicate.evaluate(drink)
+        }
+        
+        return FetchDescriptor<Drink>(
+            predicate: fullPredicate,
+            sortBy: nameSortDescriptor()
+        )
+    }
+    
+    static func searchInQuery(searchText: String, descriptor: FetchDescriptor<Drink>) -> FetchDescriptor<Drink> {
+        let searchPredicate = searchPredicate(searchText: searchText)
+        
+        guard let originalPredicate = descriptor.predicate else {
+            return FetchDescriptor<Drink>(
+                predicate: searchPredicate,
+                sortBy: descriptor.sortBy
+            )
+        }
+        
+        let fullPredicate = #Predicate<Drink> { drink in
+            originalPredicate.evaluate(drink) && searchPredicate.evaluate(drink)
+        }
+        
+        return FetchDescriptor<Drink>(
+            predicate: fullPredicate,
+            sortBy: descriptor.sortBy
+        )
+    }
+    
     static var alphabetical: FetchDescriptor<Drink> {
         FetchDescriptor<Drink>(
             sortBy: nameSortDescriptor()

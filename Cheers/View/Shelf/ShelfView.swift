@@ -52,22 +52,6 @@ struct ShelfView: View {
             }
         }
     }
-
-    private var emptyStateView: some View {
-        ContentUnavailableView {
-            Label("No Drinks", systemImage: "wineglass")
-        } description: {
-            Text("Add your first drink using the button below")
-        }
-    }
-
-    private var noSearchResultsView: some View {
-        ContentUnavailableView {
-            Label("No Results", systemImage: "magnifyingglass")
-        } description: {
-            Text("Try adjusting your search term")
-        }
-    }
 }
 
 extension ShelfView {

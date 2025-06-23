@@ -89,9 +89,26 @@ extension DrinksView {
 }
 
 struct FavoritesView: View {
+    @State private var searchText = ""
+    @State private var isSearchPresented = false
+    
     var body: some View {
-        DrinksView(config: favoritesConfig)
-            .navigationBarTitle("Favorites")
+        VStack {
+            if isSearchPresented {
+                SearchView(searchText: searchText, mode: .drinks(Drink.favorites))
+            } else {
+                DrinksView(config: favoritesConfig)
+            }
+        }
+        .searchable(text: $searchText, isPresented: $isSearchPresented)
+        .navigationBarTitle("Favorites")
+        .searchable(text: $searchText, isPresented: $isSearchPresented)
+        .toolbar { toolbar }
+    }
+    
+    @ToolbarContentBuilder
+    var toolbar: some ToolbarContent {
+        DefaultToolbarItem(kind: .search, placement: .bottomBar)
     }
 }
 

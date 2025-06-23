@@ -68,7 +68,6 @@ struct DrinkView: View {
             } label: {
                 Label("Add to Logbook", systemImage: "book.pages")
             }
-            .buttonStyle(.borderedProminent)
         }
     }
 }
