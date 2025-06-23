@@ -14,21 +14,13 @@ struct BrandView: View {
 
     @State private var isBrandModPresented: BrandModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
-    @State private var searchText = ""
-    @State private var isSearchPresented = false
 
     var body: some View {
-        VStack {
-            if isSearchPresented {
-                SearchView(searchText: searchText, mode: .brand(brand))
-            } else {
-                DrinksView(config: drinksViewConfig)
-            }
-        }
-        .navigationTitle(brand.name)
-        .searchable(text: $searchText, isPresented: $isSearchPresented)
-        .toolbar { toolbar }
-        .brandModSheet(activeSheet: $isBrandModPresented)
+        DrinksView(config: drinksViewConfig)
+            .navigationTitle(brand.name)
+            .searchable(searchMode: .brand(brand))
+            .toolbar { toolbar }
+            .brandModSheet(activeSheet: $isBrandModPresented)
     }
 
     @ToolbarContentBuilder

@@ -14,22 +14,14 @@ struct ShelfView: View {
 
     @State private var isShelfModPresented: ShelfModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
-    @State private var searchText = ""
-    @State private var isSearchPresented = false
 
     var body: some View {
-        VStack {
-            if isSearchPresented {
-                SearchView(searchText: searchText, mode: .shelf(shelf))
-            } else {
-                DrinksView(config: drinksViewConfig)
-            }
-        }
-        .navigationTitle(shelf.name)
-        .searchable(text: $searchText, isPresented: $isSearchPresented)
-        .toolbar { toolbar }
-        .shelfModSheet(activeSheet: $isShelfModPresented)
-        .drinkModSheet(activeSheet: $isDrinkModPresented)
+        DrinksView(config: drinksViewConfig)
+            .navigationTitle(shelf.name)
+            .searchable(searchMode: .shelf(shelf))
+            .toolbar { toolbar }
+            .shelfModSheet(activeSheet: $isShelfModPresented)
+            .drinkModSheet(activeSheet: $isDrinkModPresented)
     }
 
     @ToolbarContentBuilder

@@ -89,21 +89,11 @@ extension DrinksView {
 }
 
 struct FavoritesView: View {
-    @State private var searchText = ""
-    @State private var isSearchPresented = false
-    
     var body: some View {
-        VStack {
-            if isSearchPresented {
-                SearchView(searchText: searchText, mode: .drinks(Drink.favorites))
-            } else {
-                DrinksView(config: favoritesConfig)
-            }
-        }
-        .searchable(text: $searchText, isPresented: $isSearchPresented)
-        .navigationBarTitle("Favorites")
-        .searchable(text: $searchText, isPresented: $isSearchPresented)
-        .toolbar { toolbar }
+        DrinksView(config: favoritesConfig)
+            .navigationBarTitle("Favorites")
+            .searchable(searchMode: .drinks(Drink.favorites))
+            .toolbar { toolbar }
     }
     
     @ToolbarContentBuilder
@@ -127,7 +117,14 @@ extension FavoritesView {
 struct InStockView: View {
     var body: some View {
         DrinksView(config: inStockConfig)
+            .searchable(searchMode: .drinks(Drink.inStock))
             .navigationBarTitle("In Stock")
+            .toolbar { toolbar }
+    }
+    
+    @ToolbarContentBuilder
+    var toolbar: some ToolbarContent {
+        DefaultToolbarItem(kind: .search, placement: .bottomBar)
     }
 }
 

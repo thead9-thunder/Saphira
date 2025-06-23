@@ -22,8 +22,6 @@ struct SidebarView: View {
     @State private var isCabinetModPresented: CabinetModView.Mode?
     @State private var isShelfModPresented: ShelfModView.Mode?
     @State private var isDrinkModPresented: DrinkModView.Mode?
-    @State private var searchText = ""
-    @State private var isSearchPresented = false
 
     init(selectedItem: Binding<NavigationDestination?>) {
         self._selectedItem = selectedItem
@@ -35,30 +33,24 @@ struct SidebarView: View {
     }
 
     var body: some View {
-        VStack {
-            if isSearchPresented {
-                SearchView(searchText: searchText, mode: .all($selectedItem))
+        List(selection: $selectedItem) {
+            specialShelvesSection
+            
+            if !latestTastings.isEmpty {
+                latestTastingsSection
+            }
+            
+            if shelvesForCount.isEmpty && cabinetsForCount.isEmpty {
+                ContentUnavailableView(
+                    "Welcome to Cheers!",
+                    systemImage: "cabinet.fill",
+                    description: Text("Start your journey by pressing the button below")
+                )
             } else {
-                List(selection: $selectedItem) {
-                    specialShelvesSection
-                    
-                    if !latestTastings.isEmpty {
-                        latestTastingsSection
-                    }
-                    
-                    if shelvesForCount.isEmpty && cabinetsForCount.isEmpty {
-                        ContentUnavailableView(
-                            "Welcome to Cheers!",
-                            systemImage: "cabinet.fill",
-                            description: Text("Start your journey by pressing the button below")
-                        )
-                    } else {
-                        cabinetsAndShelvesSection
-                    }
-                }
+                cabinetsAndShelvesSection
             }
         }
-        .searchable(text: $searchText, isPresented: $isSearchPresented)
+        .searchable(searchMode: .all($selectedItem))
         .toolbar { toolbar }
         .sheet(isPresented: $isSettingsViewPresented) {
             NavigationStack {

@@ -12,25 +12,17 @@ struct BrandsView: View {
     @Query(Brand.alphabetical) var brands: [Brand]
 
     @State private var activeSheet: BrandModView.Mode?
-    @State private var searchText = ""
-    @State private var isSearchPresented = false
 
     var body: some View {
-        VStack {
-            if isSearchPresented {
-                SearchView(searchText: searchText, mode: .brands)
-            } else {
-                List {
-                    ForEach(brands) { brand in
-                        NavigationLink(value: NavigationDestination.brand(brand)) {
-                            BrandCellView(brand: brand)
-                        }
-                    }
+        List {
+            ForEach(brands) { brand in
+                NavigationLink(value: NavigationDestination.brand(brand)) {
+                    BrandCellView(brand: brand)
                 }
             }
         }
         .navigationTitle("Brands")
-        .searchable(text: $searchText, isPresented: $isSearchPresented)
+        .searchable(searchMode: .brands)
         .toolbar { toolbar }
         .brandModSheet(activeSheet: $activeSheet)
     }
