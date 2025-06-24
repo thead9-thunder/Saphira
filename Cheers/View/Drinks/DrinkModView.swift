@@ -132,7 +132,7 @@ extension View {
         activeSheet: Binding<DrinkModView.Mode?>,
         onCommit: @escaping (Drink) -> Void = { _ in }
     ) -> some View {
-        modSheet(activeSheet: activeSheet, detents: [.medium]) { mode in
+        modSheet(activeSheet: activeSheet, detents: [.medium, .large]) { mode in
             DrinkModView(mode: mode, onCommit: onCommit)
         }
     }
