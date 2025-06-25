@@ -18,6 +18,8 @@ class Drink {
     var isInStock: Bool = false
 
     var isPinned: Bool = false
+    
+    var icon: Icon = Icon.sfSymbol("wineglass")
 
     @Relationship(deleteRule: .nullify)
     var brand: Brand?

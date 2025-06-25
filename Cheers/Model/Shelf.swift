@@ -13,7 +13,10 @@ class Shelf {
     var id: UUID
     var createdAt: Date
     var name: String
+    
     var isPinned: Bool = false
+    
+    var icon: Icon = Icon.sfSymbol("wineglass")
 
     @Relationship(inverse: \Cabinet.shelves)
     var cabinet: Cabinet?

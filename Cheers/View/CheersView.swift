@@ -7,13 +7,14 @@
 
 import Foundation
 import SwiftUI
+import SwiftData
 
 struct CheersView: View {
     @Environment(\.modelContext) private var context
     
     @State var selectedDestination: NavigationDestination?
     @State var detailPath: [NavigationDestination] = []
-
+    
     var body: some View {
         NavigationSplitView {
             SidebarView(selectedItem: $selectedDestination)

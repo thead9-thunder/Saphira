@@ -13,6 +13,8 @@ class Cabinet {
     var id: UUID
     var createdAt: Date
     var name: String
+    
+    var icon: Icon = Icon.sfSymbol("wineglass")
 
     @Relationship(deleteRule: .cascade)
     var shelves: [Shelf]? = []

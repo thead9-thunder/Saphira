@@ -15,15 +15,7 @@ struct DrinkCellView: View {
     @State private var showDeleteConfirmation = false
 
     var body: some View {
-        HStack(spacing: 16) {
-            // TODO: Selectable icon
-            Image(systemName: "wineglass.fill")
-                .font(.title2)
-                .foregroundStyle(Color.accentColor)
-                .frame(width: 44, height: 44)
-                .background(Color.accentColor.opacity(0.1))
-                .clipShape(Circle())
-            
+        IconLabel(label: {
             VStack(alignment: .leading, spacing: 4) {
                 Text(drink.name)
                     .font(.headline)
@@ -34,7 +26,7 @@ struct DrinkCellView: View {
                         .font(.subheadline)
                 }
             }
-        }
+        }, icon: drink.icon)
         .contextMenu { contextMenu }
         .swipeActions(edge: .leading) {
             pinButton

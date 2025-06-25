@@ -25,7 +25,7 @@ struct ShelfCellView: View {
 
     var body: some View {
         HStack {
-            Label(shelf.name, systemImage: "square.stack.3d.up")
+            IconLabel(shelf.name, icon: shelf.icon)
                 .font(.body)
             
             Spacer()

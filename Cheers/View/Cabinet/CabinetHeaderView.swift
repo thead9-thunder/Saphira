@@ -17,7 +17,7 @@ struct CabinetHeaderView: View {
 
     var body: some View {
         HStack {
-            Label(cabinet.name, systemImage: "cabinet")
+            IconLabel(cabinet.name, icon: cabinet.icon)
                 .font(.title2)
                 .foregroundStyle(Color(.label))
 
