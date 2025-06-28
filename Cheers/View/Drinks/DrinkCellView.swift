@@ -43,7 +43,7 @@ struct DrinkCellView: View {
                 drink.delete()
             }
         } message: {
-            Text("Are you sure you want to delete this drink?\n\nThis will also delete all of its associated tastings.\n\nThis action cannot be undone.")
+            Text("Are you sure you want to delete this drink?\n\nThis will also delete all of its associated log entries.\n\nThis action cannot be undone.")
         }
     }
 

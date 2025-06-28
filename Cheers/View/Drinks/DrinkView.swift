@@ -36,9 +36,9 @@ struct DrinkView: View {
             Section("Logbook") {
                 if tastings.isEmpty {
                     ContentUnavailableView(
-                        "No Tastings",
+                        "No Log Entries",
                         systemImage: "book.pages",
-                        description: Text("Add your first tasting using the button below")
+                        description: Text("Add your first log entry using the button below")
                     )
                 } else {
                     TastingsTimeline(tastings: _tastings)
@@ -61,12 +61,19 @@ struct DrinkView: View {
                 Label("Info", systemImage: "info")
             }
         }
-
+        
         ToolbarItem(placement: .bottomBar) {
             Button {
                 isTastingSheetPresented = .add(drink)
             } label: {
-                Label("Add to Logbook", systemImage: "book.pages")
+                //Text("Add to Logbook")
+                Label {
+                    Text("Add to Logbook")
+                } icon: {
+                    Image(systemName: "book.pages")
+                }
+                .labelStyle(.titleOnly)
+                //Label("Add to Logbook", systemImage: "book.pages")
             }
         }
     }

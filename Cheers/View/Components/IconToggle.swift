@@ -26,7 +26,6 @@ struct IconToggle: View {
             Spacer()
         }
         .toggleStyle(.button)
-//        .toggleStyle(AnimatedButtonToggleStyle())
         .gridCellAnchor(.center)
     }
 } 

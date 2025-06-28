@@ -21,6 +21,7 @@ struct BrandView: View {
             .searchable(searchMode: .brand(brand))
             .toolbar { toolbar }
             .brandModSheet(activeSheet: $isBrandModPresented)
+            .drinkModSheet(activeSheet: $isDrinkModPresented)
     }
 
     @ToolbarContentBuilder

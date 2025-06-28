@@ -31,7 +31,7 @@ struct DrinksStatsCard: View {
 
             StatView(
                 value: "\(totalTastings)",
-                label: "Tastings",
+                label: "Log Entries",
                 systemImage: "book.pages"
             )
             .popAnimation(value: totalTastings)

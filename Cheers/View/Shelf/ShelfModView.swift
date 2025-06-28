@@ -18,6 +18,7 @@ struct ShelfModView: View {
 
     @State var name: String
     @State var cabinet: Cabinet?
+    @State var icon: Icon
 
     var isFormValid: Bool { isNameValid }
     var isNameValid: Bool { !name.isEmpty }
@@ -30,9 +31,11 @@ struct ShelfModView: View {
         case .add(let cabinet):
             _name = State(initialValue: "")
             _cabinet = State(initialValue: cabinet)
+            _icon = State(initialValue: .emoji("☕️"))
         case .edit(let shelf):
             _name = State(initialValue: shelf.name)
             _cabinet = State(initialValue: shelf.cabinet)
+            _icon = State(initialValue: shelf.icon)
         }
     }
 
@@ -40,10 +43,15 @@ struct ShelfModView: View {
         Form {
             Section {
                 TextField("Name", text: $name, prompt: Text("Name"))
+                NavigationLink(destination: IconPicker(icon: $icon)) {
+                    IconLabel("Icon", icon: icon)
+                }
             }
 
             Section {
                 CabinetPicker(selectedCabinet: $cabinet)
+            } header: {
+                Text("Shelf Location")
             }
         }
         .navigationTitle(title)
@@ -90,10 +98,12 @@ struct ShelfModView: View {
             } else {
                 committedShelf = Shelf.create(named: name, for: modelContext)
             }
+            committedShelf.icon = icon
             navigationState.navigate(to: .shelf(committedShelf))
         case .edit(let shelf):
             shelf.name = name
             shelf.cabinet = cabinet
+            shelf.icon = icon
             committedShelf = shelf
         }
 
@@ -125,7 +135,7 @@ extension View {
         activeSheet: Binding<ShelfModView.Mode?>,
         onCommit: @escaping (Shelf) -> Void = { _ in }
     ) -> some View {
-        modSheet(activeSheet: activeSheet, detents: [.medium]) { mode in
+        modSheet(activeSheet: activeSheet, detents: [.large]) { mode in
             ShelfModView(mode: mode, onCommit: onCommit)
         }
     }

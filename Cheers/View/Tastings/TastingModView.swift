@@ -52,9 +52,9 @@ struct TastingModView: View {
     var title: String {
         switch mode {
         case .add:
-            "Add Tasting"
+            "Add to Logbook"
         case .edit:
-            "Edit Tasting"
+            "Edit Log Entry"
         }
     }
 

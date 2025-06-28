@@ -44,7 +44,7 @@ struct CabinetHeaderView: View {
                 cabinet.delete()
             }
         } message: {
-            Text("Are you sure you want to delete this cabinet?\n\nThis will also delete all of its shelves, drinks, and associated tastings.\n\nThis action cannot be undone.")
+            Text("Are you sure you want to delete this cabinet?\n\nThis will also delete all of its shelves, drinks, and associated log entries.\n\nThis action cannot be undone.")
         }
     }
 

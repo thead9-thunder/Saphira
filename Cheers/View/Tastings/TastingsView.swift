@@ -18,7 +18,7 @@ struct TastingsView: View {
 
     var body: some View {
         VStack {
-            Text("# of tastings: \(tastings.count)")
+            Text("# of log entries: \(tastings.count)")
             List {
                 ForEach(tastings) { tasting in
                     Text("Drank at \(tasting.date)")

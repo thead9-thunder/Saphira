@@ -39,7 +39,7 @@ struct DrinksView: View {
                     }
 
                     if latestTastings.count != 0 {
-                        Section("Latest Tastings") {
+                        Section("Latest Log Entries") {
                             TastingsReLogCard(tastings: _latestTastings)
                         }
                     }

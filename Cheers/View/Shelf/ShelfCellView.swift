@@ -55,7 +55,7 @@ struct ShelfCellView: View {
                 shelf.delete()
             }
         } message: {
-            Text("Are you sure you want to delete this shelf?\n\nThis will also delete all of its drinks and associated tastings.\n\nThis action cannot be undone.")
+            Text("Are you sure you want to delete this shelf?\n\nThis will also delete all of its drinks and associated log entries.\n\nThis action cannot be undone.")
         }
     }
 

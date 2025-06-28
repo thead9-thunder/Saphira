@@ -41,12 +41,12 @@ struct TastingCell: View {
             deleteButton
         }
         .tastingModSheet(activeSheet: $isTastingModPresented)
-        .confirmationDialog("Delete Tasting?", isPresented: $showDeleteConfirmation) {
-            Button("Delete Tasting", role: .destructive) {
+        .confirmationDialog("Delete Log Entry?", isPresented: $showDeleteConfirmation) {
+            Button("Delete Log Entry", role: .destructive) {
                 tasting.delete()
             }
         } message: {
-            Text("Are you sure you want to delete this tasting?\n\nThis action cannot be undone.")
+            Text("Are you sure you want to delete this log entry?\n\nThis action cannot be undone.")
         }
     }
 

@@ -25,7 +25,7 @@ struct TastingsStatsCard: View {
         HStack(spacing: 15) {
             StatView(
                 value: "\(tastings.count)",
-                label: "Tastings",
+                label: "Log Entries",
                 systemImage: "book.pages"
             )
             .popAnimation(value: tastings.count)
@@ -33,7 +33,7 @@ struct TastingsStatsCard: View {
             if let firstTasting = tastings.last {
                 StatView(
                     value: firstTasting.date.formatted(date: .abbreviated, time: .omitted),
-                    label: "First Tasted",
+                    label: "First Logged",
                     systemImage: "calendar"
                 )
                 .popAnimation(value: tastings.last)
@@ -42,7 +42,7 @@ struct TastingsStatsCard: View {
             if let lastTasting = tastings.first {
                 StatView(
                     value: lastTasting.date.formatted(date: .abbreviated, time: .omitted),
-                    label: "Last Tasted",
+                    label: "Last Logged",
                     systemImage: "calendar.badge.clock"
                 )
                 .popAnimation(value: tastings.first)

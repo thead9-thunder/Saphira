@@ -142,7 +142,7 @@ struct SidebarView: View {
     }
 
     private var latestTastingsSection: some View {
-        Section("Latest Tastings") {
+        Section("Latest Log Entries") {
             TastingsReLogCard(tastings: _latestTastings)
         }
     }
