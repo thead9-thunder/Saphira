@@ -50,7 +50,10 @@ extension ShelfView {
     var drinksViewConfig: DrinksView.Config {
         .init(
             drinks: Query(Drink.on(shelf: shelf)),
-            latestTastings: Query(Tasting.forShelf(shelf, limit: 10))
+            latestTastings: Query(Tasting.forShelf(shelf, limit: 10)),
+            icon: shelf.icon,
+            unavailableTitle: "No Drinks",
+            unavailableDescription: "Add your first drink on this shelf using the button below"
         )
     }
 }

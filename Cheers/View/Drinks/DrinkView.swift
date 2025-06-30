@@ -66,14 +66,7 @@ struct DrinkView: View {
             Button {
                 isTastingSheetPresented = .add(drink)
             } label: {
-                //Text("Add to Logbook")
-                Label {
-                    Text("Add to Logbook")
-                } icon: {
-                    Image(systemName: "book.pages")
-                }
-                .labelStyle(.titleOnly)
-                //Label("Add to Logbook", systemImage: "book.pages")
+                Label("Add to Logbook", systemImage: "book.pages")
             }
         }
     }

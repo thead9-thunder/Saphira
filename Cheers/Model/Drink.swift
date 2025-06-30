@@ -19,7 +19,7 @@ class Drink {
 
     var isPinned: Bool = false
     
-    var icon: Icon = Icon.sfSymbol("wineglass")
+    var icon: Icon = Icon.sfSymbol("cup.and.saucer")
 
     @Relationship(deleteRule: .nullify)
     var brand: Brand?

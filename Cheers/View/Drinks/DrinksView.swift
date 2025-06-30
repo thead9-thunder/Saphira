@@ -16,15 +16,15 @@ struct DrinksView: View {
 
     private var pinnedDrinks: [Drink] { drinks.filter { $0.isPinned } }
 
-    private var unavailableLabel: String
-    private var unavailableSystemImage: String
+    private var icon: Icon
+    private var unavailableTitle: String
     private var unavailableDescription: String
 
     init(config: Config) {
         self._drinks = config.drinks
         self._latestTastings = config.latestTastings
-        self.unavailableLabel = config.unavailableLabel
-        self.unavailableSystemImage = config.unavailableSystemImage
+        self.icon = config.icon
+        self.unavailableTitle = config.unavailableTitle
         self.unavailableDescription = config.unavailableDescription
     }
 
@@ -35,7 +35,7 @@ struct DrinksView: View {
             } else {
                 List {
                     Section("Statistics") {
-                        DrinksStatsCard(drinks: _drinks)
+                        DrinksStatsCard(drinks: _drinks, icon: icon)
                     }
 
                     if latestTastings.count != 0 {
@@ -71,7 +71,7 @@ struct DrinksView: View {
 
     private var emptyStateView: some View {
         ContentUnavailableView {
-            Label(unavailableLabel, systemImage: unavailableSystemImage)
+            IconLabel(unavailableTitle, icon: icon)
         } description: {
             Text(unavailableDescription)
         }
@@ -82,9 +82,9 @@ extension DrinksView {
     struct Config {
         var drinks: Query<Drink, Array<Drink>>
         var latestTastings: Query<Tasting, Array<Tasting>>
-        var unavailableLabel: String = "No Drinks"
-        var unavailableSystemImage: String = "wineglass"
-        var unavailableDescription: String = "Add your first drink using the button below"
+        var icon: Icon
+        var unavailableTitle: String
+        var unavailableDescription: String
     }
 }
 
@@ -107,8 +107,8 @@ extension FavoritesView {
         .init(
             drinks: Query(Drink.favorites),
             latestTastings: Query(Tasting.forFavorites(limit: 10)),
-            unavailableLabel: "No Favorites",
-            unavailableSystemImage: "star.fill",
+            icon: .sfSymbol("star.fill"),
+            unavailableTitle: "No Favorites",
             unavailableDescription: "On a drink's page you can mark it as a favorite"
         )
     }
@@ -133,8 +133,8 @@ extension InStockView {
         .init(
             drinks: Query(Drink.inStock),
             latestTastings: Query(Tasting.forInStock(limit: 10)),
-            unavailableLabel: "Nothing In Stock",
-            unavailableSystemImage: "circle.slash",
+            icon: .sfSymbol("circle.slash"),
+            unavailableTitle: "Nothing In Stock",
             unavailableDescription: "On a drink's page you can mark it as in stock"
         )
     }

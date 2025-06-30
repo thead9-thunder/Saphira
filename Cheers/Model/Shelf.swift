@@ -16,7 +16,7 @@ class Shelf {
     
     var isPinned: Bool = false
     
-    var icon: Icon = Icon.sfSymbol("wineglass")
+    var icon: Icon = Icon.sfSymbol("cup.and.saucer")
 
     @Relationship(inverse: \Cabinet.shelves)
     var cabinet: Cabinet?

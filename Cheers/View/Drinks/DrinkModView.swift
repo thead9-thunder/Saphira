@@ -17,6 +17,7 @@ struct DrinkModView: View {
     @State var name: String
     @State var brand: Brand?
     @State var shelf: Shelf?
+    @State var icon: Icon
 
     var isFormValid: Bool { isNameValid && isShelfValid }
     var isNameValid: Bool { !name.isEmpty }
@@ -31,10 +32,12 @@ struct DrinkModView: View {
             _name = State(initialValue: "")
             _brand = State(initialValue: config.brand)
             _shelf = State(initialValue: config.shelf)
+            _icon = State(initialValue: config.shelf?.icon ?? .sfSymbol("cup.and.saucer"))
         case .edit(let drink):
             _name = State(initialValue: drink.name)
             _brand = State(initialValue: drink.brand)
             _shelf = State(initialValue: drink.shelf)
+            _icon = State(initialValue: drink.icon)
         }
     }
 
@@ -42,6 +45,9 @@ struct DrinkModView: View {
         Form {
             Section {
                 TextField("Name", text: $name, prompt: Text("Name"))
+                NavigationLink(destination: IconPicker(icon: $icon)) {
+                    IconLabel("Icon", icon: icon)
+                }
             }
 
             Section {
@@ -91,11 +97,13 @@ struct DrinkModView: View {
             committedDrink = Drink.create(named: name, for: modelContext)
             committedDrink.brand = brand
             committedDrink.shelf = shelf
+            committedDrink.icon = icon
             navigationState.navigate(to: .drink(committedDrink))
         case .edit(let drink):
             drink.name = name
             drink.brand = brand
             drink.shelf = shelf
+            drink.icon = icon
             committedDrink = drink
         }
 
@@ -132,15 +140,8 @@ extension View {
         activeSheet: Binding<DrinkModView.Mode?>,
         onCommit: @escaping (Drink) -> Void = { _ in }
     ) -> some View {
-        modSheet(activeSheet: activeSheet, detents: [.medium, .large]) { mode in
+        modSheet(activeSheet: activeSheet, detents: [.large]) { mode in
             DrinkModView(mode: mode, onCommit: onCommit)
         }
-    }
-}
-
-// MARK: - Previews
-#Preview {
-    NavigationStack {
-        DrinkModView(mode: .add(DrinkModView.Config()))
     }
 }

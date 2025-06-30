@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct IconPicker: View {
+    @Environment(\.dismiss) private var dismiss
+    
     var icon: Binding<Icon>
     
     @FocusState private var isEmojiTextFieldFocused: Bool
@@ -21,6 +23,18 @@ struct IconPicker: View {
             sfSymbolSections
         }
         .navigationTitle("Select Icon")
+        .toolbar { toolbar }
+    }
+    
+    @ToolbarContentBuilder
+    var toolbar: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                dismiss()
+            } label: {
+                Label("Done", systemImage: "checkmark")
+            }
+        }
     }
     
     var selectedIconSection: some View {

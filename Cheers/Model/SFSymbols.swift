@@ -16,7 +16,7 @@ struct SFSymbolCategory: Identifiable {
 }
 
 extension SFSymbolCategory {
-    static let all = [wine, coffee]
+    static let all = [wine, coffee, organization]
     
     static let wine = SFSymbolCategory(
         name: "Wine",
@@ -29,6 +29,13 @@ extension SFSymbolCategory {
         name: "Coffee",
         sfSymbols: [
             "cup.and.saucer", "cup.and.saucer.fill"
+        ]
+    )
+    
+    static let organization = SFSymbolCategory(
+        name: "Organization",
+        sfSymbols: [
+            "cabinet", "cabinet.fill"
         ]
     )
 }

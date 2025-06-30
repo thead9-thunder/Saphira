@@ -11,11 +11,11 @@ import SwiftUI
 struct StatView: View {
     let value: String
     let label: String
-    let systemImage: String
+    let icon: Icon
 
     var body: some View {
         VStack(spacing: 8) {
-            Image(systemName: systemImage)
+            IconView(icon: icon)
                 .font(.title2)
                 .foregroundStyle(.tint)
 

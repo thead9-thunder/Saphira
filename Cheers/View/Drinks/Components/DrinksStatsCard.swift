@@ -11,13 +11,16 @@ import SwiftData
 
 struct DrinksStatsCard: View {
     @Query var drinks: [Drink]
+    let icon: Icon
 
-    init(drinks: FetchDescriptor<Drink>) {
+    init(drinks: FetchDescriptor<Drink>, icon: Icon) {
         _drinks = Query(drinks)
+        self.icon = icon
     }
 
-    init(drinks: Query<Drink, Array<Drink>>) {
+    init(drinks: Query<Drink, Array<Drink>>, icon: Icon) {
         _drinks = drinks
+        self.icon = icon
     }
 
     var body: some View {
@@ -25,14 +28,14 @@ struct DrinksStatsCard: View {
             StatView(
                 value: "\(drinks.count)",
                 label: "Drinks",
-                systemImage: "wineglass"
+                icon: icon
             )
             .popAnimation(value: drinks.count)
 
             StatView(
                 value: "\(totalTastings)",
                 label: "Log Entries",
-                systemImage: "book.pages"
+                icon: .sfSymbol("book.pages")
             )
             .popAnimation(value: totalTastings)
         }

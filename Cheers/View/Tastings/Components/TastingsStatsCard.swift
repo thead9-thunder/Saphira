@@ -26,7 +26,7 @@ struct TastingsStatsCard: View {
             StatView(
                 value: "\(tastings.count)",
                 label: "Log Entries",
-                systemImage: "book.pages"
+                icon: .sfSymbol("book.pages")
             )
             .popAnimation(value: tastings.count)
 
@@ -34,7 +34,7 @@ struct TastingsStatsCard: View {
                 StatView(
                     value: firstTasting.date.formatted(date: .abbreviated, time: .omitted),
                     label: "First Logged",
-                    systemImage: "calendar"
+                    icon: .sfSymbol("calendar")
                 )
                 .popAnimation(value: tastings.last)
             }
@@ -43,7 +43,7 @@ struct TastingsStatsCard: View {
                 StatView(
                     value: lastTasting.date.formatted(date: .abbreviated, time: .omitted),
                     label: "Last Logged",
-                    systemImage: "calendar.badge.clock"
+                    icon: .sfSymbol("calendar.badge.clock")
                 )
                 .popAnimation(value: tastings.first)
             }

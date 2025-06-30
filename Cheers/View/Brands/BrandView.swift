@@ -50,7 +50,10 @@ extension BrandView {
     var drinksViewConfig: DrinksView.Config {
         .init(
             drinks: Query(Drink.by(brand: brand)),
-            latestTastings: Query(Tasting.forBrand(brand, limit: 10))
+            latestTastings: Query(Tasting.forBrand(brand, limit: 10)),
+            icon: .sfSymbol("cup.and.saucer"),
+            unavailableTitle: "No Drinks",
+            unavailableDescription: "Add your first drink for this brand using the button below"
         )
     }
 }

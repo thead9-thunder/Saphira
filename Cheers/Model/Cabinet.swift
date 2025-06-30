@@ -14,7 +14,7 @@ class Cabinet {
     var createdAt: Date
     var name: String
     
-    var icon: Icon = Icon.sfSymbol("wineglass")
+    var icon: Icon = Icon.sfSymbol("cup.and.saucer")
 
     @Relationship(deleteRule: .cascade)
     var shelves: [Shelf]? = []

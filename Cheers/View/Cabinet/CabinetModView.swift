@@ -16,6 +16,7 @@ struct CabinetModView: View {
     var onCommit: (Cabinet) -> Void
 
     @State var name: String
+    @State var icon: Icon
 
     var isFormValid: Bool { isNameValid }
     var isNameValid: Bool { !name.isEmpty }
@@ -27,14 +28,21 @@ struct CabinetModView: View {
         switch mode {
         case .add:
             _name = State(initialValue: "")
+            _icon = State(initialValue: .sfSymbol("cabinet"))
         case .edit(let cabinet):
             _name = State(initialValue: cabinet.name)
+            _icon = State(initialValue: cabinet.icon)
         }
     }
 
     var body: some View {
         Form {
-            TextField("Name", text: $name, prompt: Text("Name"))
+            Section {
+                TextField("Name", text: $name, prompt: Text("Name"))
+                NavigationLink(destination: IconPicker(icon: $icon)) {
+                    IconLabel("Icon", icon: icon)
+                }
+            }
         }
         .navigationTitle(title)
         .toolbar { toolbar }
@@ -76,8 +84,10 @@ struct CabinetModView: View {
         switch mode {
         case .add:
             committedCabinet = Cabinet.create(named: name, for: modelContext)
+            committedCabinet.icon = icon
         case .edit(let cabinet):
             cabinet.name = name
+            cabinet.icon = icon
             committedCabinet = cabinet
         }
 
@@ -109,7 +119,7 @@ extension View {
         activeSheet: Binding<CabinetModView.Mode?>,
         onCommit: @escaping (Cabinet) -> Void = { _ in }
     ) -> some View {
-        modSheet(activeSheet: activeSheet, detents: [.medium]) { mode in
+        modSheet(activeSheet: activeSheet, detents: [.large]) { mode in
             CabinetModView(mode: mode, onCommit: onCommit)
         }
     }
