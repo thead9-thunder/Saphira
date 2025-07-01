@@ -66,7 +66,10 @@ struct DrinkView: View {
             Button {
                 isTastingSheetPresented = .add(drink)
             } label: {
-                Label("Add to Logbook", systemImage: "book.pages")
+                Text("Add to Logbook")
+                // Won't display both title and icon
+//                Label("Add to Logbook", systemImage: "book.pages")
+//                    .labelStyle(.titleAndIcon)
             }
         }
     }
