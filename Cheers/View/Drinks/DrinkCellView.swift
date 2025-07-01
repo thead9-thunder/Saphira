@@ -41,6 +41,7 @@ struct DrinkCellView: View {
         .confirmationDialog("Delete Drink?", isPresented: $showDeleteConfirmation) {
             Button("Delete Drink", role: .destructive) {
                 drink.delete()
+                ToastManager.shared.showDrinkDeletedToast(for: drink.name)
             }
         } message: {
             Text("Are you sure you want to delete this drink?\n\nThis will also delete all of its associated log entries.\n\nThis action cannot be undone.")

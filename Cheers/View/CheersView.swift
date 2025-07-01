@@ -11,6 +11,7 @@ import SwiftData
 
 struct CheersView: View {
     @Environment(\.modelContext) private var context
+    @StateObject private var toastManager = ToastManager.shared
     
     @State var selectedDestination: NavigationDestination?
     @State var detailPath: [NavigationDestination] = []
@@ -28,5 +29,8 @@ struct CheersView: View {
             }
         }
         .navigationState(selectedDestination: $selectedDestination, detailPath: $detailPath)
+        .overlay {
+            ToastOverlay(toastManager: toastManager)
+        }
     }
 }

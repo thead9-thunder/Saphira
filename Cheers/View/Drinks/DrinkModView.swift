@@ -99,6 +99,9 @@ struct DrinkModView: View {
             committedDrink.shelf = shelf
             committedDrink.icon = icon
             navigationState.navigate(to: .drink(committedDrink))
+            
+            // Show toast notification for new drink
+            ToastManager.shared.showDrinkCreatedToast(for: committedDrink)
         case .edit(let drink):
             drink.name = name
             drink.brand = brand

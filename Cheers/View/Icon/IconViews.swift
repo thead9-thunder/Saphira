@@ -11,13 +11,15 @@ struct IconView: View {
     let icon: Icon
     
     var body: some View {
-        switch icon {
-        case .emoji(let emoji):
-            Text(emoji)
-        case .sfSymbol(let sfSymbol):
-            Image(systemName: sfSymbol)
-        case .customSFSymbol(let customSFSymbol):
-            Image(customSFSymbol)
+        Group {
+            switch icon {
+            case .emoji(let emoji):
+                Text(emoji)
+            case .sfSymbol(let sfSymbol):
+                Image(systemName: sfSymbol)
+            case .customSFSymbol(let customSFSymbol):
+                Image(customSFSymbol)
+            }
         }
     }
 }

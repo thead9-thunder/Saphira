@@ -87,6 +87,9 @@ struct TastingModView: View {
             case .add(let drink):
                     committedTasting = Tasting.create(for: drink, at: date)
                     committedTasting.notes = notes
+                    
+                    // Show toast notification for new log entry
+                    ToastManager.shared.showDrinkLoggedToast(for: drink)
             case .edit(let tasting):
                 tasting.date = date
                 tasting.notes = notes
