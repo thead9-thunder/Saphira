@@ -17,28 +17,27 @@ struct ToastView: View {
     
     var body: some View {
         HStack {
-            IconLabel(label: {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(toast.title)
-                        .font(.headline)
-                        .foregroundColor(toast.type.foregroundColor)
-                    
-                    Text(toast.message)
-                        .font(.subheadline)
-                        .foregroundColor(toast.type.foregroundColor.opacity(0.9))
-                }
-            }, icon: toast.icon)
-            .font(.title2)
+            IconView(icon: toast.icon)
+                .font(.title2)
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text(toast.title)
+                    .font(.headline)
+                
+                Text(toast.message)
+                    .font(.subheadline)
+                    .opacity(0.9)
+            }
                         
-            // Dismiss button
             Button {
                 onDismiss()
             } label: {
                 Image(systemName: "xmark")
                     .font(.caption)
-                    .foregroundColor(toast.type.foregroundColor.opacity(0.7))
+                    .opacity(0.7)
             }
         }
+        .foregroundStyle(toast.type.foregroundColor)
         .padding()
         .background(toast.type.backgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: 24))

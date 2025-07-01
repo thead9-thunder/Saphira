@@ -34,7 +34,7 @@ enum NavigationDestination: Hashable {
         default:
             ContentUnavailableView(
                 "No Item Selected",
-                systemImage: "wineglass",
+                systemImage: "cup.and.saucer",
                 description: Text("Please select an item")
             )
         }
