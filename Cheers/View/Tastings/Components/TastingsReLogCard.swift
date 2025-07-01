@@ -24,13 +24,11 @@ struct TastingsReLogCard: View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 15) {
                 ForEach(Array(tastings.enumerated()), id: \.element.id) { index, tasting in
-                    if let drink = tasting.drink {
-                        HStack(spacing: 15) {
-                            DrinkReLogView(drink: drink)
-                            if index < tastings.count - 1 {
-                                Divider()
-                                    .padding(.vertical)
-                            }
+                    HStack(spacing: 15) {
+                        DrinkReLogView(tasting: tasting)
+                        if index < tastings.count - 1 {
+                            Divider()
+                                .padding(.vertical)
                         }
                     }
                 }
@@ -40,34 +38,40 @@ struct TastingsReLogCard: View {
 }
 
 struct DrinkReLogView: View {
-    let drink: Drink
+    let tasting: Tasting
 
     @State private var isTastingModPresented: TastingModView.Mode?
 
     var body: some View {
-        HStack(spacing: 15) {
-            NavigationLink(value: NavigationDestination.drink(drink)) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(drink.name)
-                        .font(.headline)
-                    
-                    if let brand = drink.brand {
-                        Text(brand.name)
+        if let drink = tasting.drink {
+            HStack(spacing: 15) {
+                NavigationLink(value: NavigationDestination.drink(drink)) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(drink.name)
+                            .font(.headline)
+                        
+                        if let brand = drink.brand {
+                            Text(brand.name)
+                                .foregroundStyle(.secondary)
+                                .font(.subheadline)
+                        }
+                        
+                        Text("\(tasting.date, style: .relative) ago")
                             .foregroundStyle(.secondary)
-                            .font(.subheadline)
+                            .font(.caption)
                     }
                 }
+                .buttonStyle(.plain)
+                
+                Button {
+                    isTastingModPresented = .add(drink)
+                } label: {
+                    Text("Log Again")
+                }
+                .buttonStyle(.borderedProminent)
             }
-            .buttonStyle(.plain)
-
-            Button {
-                isTastingModPresented = .add(drink)
-            } label: {
-                Text("Log Again")
-            }
-            .buttonStyle(.borderedProminent)
+            .tastingModSheet(activeSheet: $isTastingModPresented)
         }
-        .tastingModSheet(activeSheet: $isTastingModPresented)
     }
 }
 
