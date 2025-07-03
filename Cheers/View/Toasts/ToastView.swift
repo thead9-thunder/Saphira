@@ -16,7 +16,7 @@ struct ToastView: View {
     @State private var opacity: Double = 0
     
     var body: some View {
-        HStack {
+        HStack(spacing: 15) {
             IconView(icon: toast.icon)
                 .font(.title2)
             

@@ -19,7 +19,7 @@ struct CheersView: View {
     var body: some View {
         NavigationSplitView {
             SidebarView(selectedItem: $selectedDestination)
-                .navigationTitle("Cheers")
+                .navigationTitle(Cheers.appName)
         } detail: {
             NavigationStack(path: $detailPath) {
                 NavigationDestination.navigationDestinationView(selectedDestination)
