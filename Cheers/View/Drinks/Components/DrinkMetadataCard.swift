@@ -17,8 +17,8 @@ struct DrinkMetadataCard: View {
             GridRow {
                 IconToggle(
                     label: "Favorite",
-                    onIcon: "star.fill",
-                    offIcon: "star.slash",
+                    onIcon: "heart.fill",
+                    offIcon: "heart.slash",
                     isOn: $drink.isFavorite
                 )
 

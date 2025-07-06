@@ -116,8 +116,8 @@ struct SidebarView: View {
                 Label {
                     Text("Favorites")
                 } icon: {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(.yellow)
+                    Image(systemName: "heart.fill")
+                        .foregroundStyle(.pink)
                 }
             }
 

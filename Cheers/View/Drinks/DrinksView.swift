@@ -107,7 +107,7 @@ extension FavoritesView {
         .init(
             drinks: Query(Drink.favorites),
             latestTastings: Query(Tasting.forFavorites(limit: 10)),
-            icon: .sfSymbol("star.fill"),
+            icon: .sfSymbol("heart.fill"),
             unavailableTitle: "No Favorites",
             unavailableDescription: "On a drink's page you can mark it as a favorite"
         )
@@ -133,7 +133,7 @@ extension InStockView {
         .init(
             drinks: Query(Drink.inStock),
             latestTastings: Query(Tasting.forInStock(limit: 10)),
-            icon: .sfSymbol("circle.slash"),
+            icon: .sfSymbol("checkmark.circle.fill"),
             unavailableTitle: "Nothing In Stock",
             unavailableDescription: "On a drink's page you can mark it as in stock"
         )
