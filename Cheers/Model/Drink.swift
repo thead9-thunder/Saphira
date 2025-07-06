@@ -16,6 +16,8 @@ class Drink {
 
     var isFavorite: Bool = false
     var isInStock: Bool = false
+    
+    var notes: String = ""
 
     var isPinned: Bool = false
     

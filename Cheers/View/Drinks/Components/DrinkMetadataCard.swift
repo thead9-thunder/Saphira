@@ -29,6 +29,18 @@ struct DrinkMetadataCard: View {
                     isOn: $drink.isInStock
                 )
             }
+            
+            if !drink.notes.isEmpty {
+                Divider()
+
+                GridRow {
+                    Text(drink.notes)
+                        .gridCellColumns(2)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
         }
     }
 }

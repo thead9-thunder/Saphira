@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct CheersApp: App {
+struct CheersApp: App {    
     var body: some Scene {
         WindowGroup {
             CheersView()

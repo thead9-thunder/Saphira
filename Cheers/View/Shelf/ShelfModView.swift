@@ -31,7 +31,7 @@ struct ShelfModView: View {
         case .add(let cabinet):
             _name = State(initialValue: "")
             _cabinet = State(initialValue: cabinet)
-            _icon = State(initialValue: .sfSymbol("cup.and.saucer"))
+            _icon = State(initialValue: cabinet?.icon ?? .sfSymbol("cup.and.saucer"))
         case .edit(let shelf):
             _name = State(initialValue: shelf.name)
             _cabinet = State(initialValue: shelf.cabinet)

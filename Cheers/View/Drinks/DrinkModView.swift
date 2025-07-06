@@ -18,6 +18,7 @@ struct DrinkModView: View {
     @State var brand: Brand?
     @State var shelf: Shelf?
     @State var icon: Icon
+    @State var notes: String
 
     var isFormValid: Bool { isNameValid && isShelfValid }
     var isNameValid: Bool { !name.isEmpty }
@@ -33,11 +34,13 @@ struct DrinkModView: View {
             _brand = State(initialValue: config.brand)
             _shelf = State(initialValue: config.shelf)
             _icon = State(initialValue: config.shelf?.icon ?? .sfSymbol("cup.and.saucer"))
+            _notes = State(initialValue: "")
         case .edit(let drink):
             _name = State(initialValue: drink.name)
             _brand = State(initialValue: drink.brand)
             _shelf = State(initialValue: drink.shelf)
             _icon = State(initialValue: drink.icon)
+            _notes = State(initialValue: drink.notes)
         }
     }
 
@@ -45,14 +48,22 @@ struct DrinkModView: View {
         Form {
             Section {
                 TextField("Name", text: $name, prompt: Text("Name"))
+                BrandPickerButton(selectedBrand: $brand)
                 NavigationLink(destination: IconPicker(icon: $icon)) {
                     IconLabel("Icon", icon: icon)
                 }
             }
 
             Section {
-                BrandPickerButton(selectedBrand: $brand)
                 ShelfPicker(selectedShelf: $shelf)
+            } header: {
+                Text("Organization")
+            }
+            
+            Section {
+                TextEditor(text: $notes)
+            } header: {
+                Text("Notes")
             }
         }
         .navigationTitle(title)
@@ -98,6 +109,7 @@ struct DrinkModView: View {
             committedDrink.brand = brand
             committedDrink.shelf = shelf
             committedDrink.icon = icon
+            committedDrink.notes = notes
             navigationState.navigate(to: .drink(committedDrink))
             
             // Show toast notification for new drink
@@ -107,6 +119,7 @@ struct DrinkModView: View {
             drink.brand = brand
             drink.shelf = shelf
             drink.icon = icon
+            drink.notes = notes
             committedDrink = drink
         }
 
