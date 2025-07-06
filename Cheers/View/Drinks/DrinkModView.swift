@@ -30,7 +30,7 @@ struct DrinkModView: View {
 
         switch mode {
         case .add(let config):
-            _name = State(initialValue: "")
+            _name = State(initialValue: config.name ?? "")
             _brand = State(initialValue: config.brand)
             _shelf = State(initialValue: config.shelf)
             _icon = State(initialValue: config.shelf?.icon ?? .sfSymbol("cup.and.saucer"))
@@ -145,6 +145,7 @@ extension DrinkModView {
     }
 
     struct Config {
+        var name: String? = nil
         var brand: Brand? = nil
         var shelf: Shelf? = nil
     }

@@ -13,9 +13,13 @@ struct SearchView: View {
     let searchText: String
     let mode: Mode
     
-    @Query private var shelves: [Shelf]
     @Query private var drinks: [Drink]
+    @Query private var shelves: [Shelf]
     @Query private var brands: [Brand]
+    
+    @State private var isDrinkModPresented: DrinkModView.Mode?
+    @State private var isShelfModPresented: ShelfModView.Mode?
+    @State private var isBrandModPresented: BrandModView.Mode?
         
     init(searchText: String, mode: Mode) {
         self.searchText = searchText
@@ -57,6 +61,10 @@ struct SearchView: View {
                 noResultsView
             } else {
                 contentSections
+            }
+            
+            if !searchText.isEmpty {
+                addNewSection
             }
         }
         .navigationTitle("Search Results")
@@ -159,6 +167,54 @@ struct SearchView: View {
                 }
             }
         }
+    }
+    
+    private var addNewSection: some View {
+        Section {
+            switch mode {
+            case .all:
+                addNewDrinkButton(config: .init(name: searchText))
+                addNewShelfButton
+                addNewBrandButton
+            case .shelf(let shelf):
+                addNewDrinkButton(config: .init(name: searchText, shelf: shelf))
+            case .brands:
+                addNewBrandButton
+            case .brand(let brand):
+                addNewDrinkButton(config: .init(name: searchText, brand: brand))
+            case .drinks:
+                addNewDrinkButton(config: .init(name: searchText))
+            }
+        } header: {
+            Text("Add New")
+        }
+    }
+    
+    private func addNewDrinkButton(config: DrinkModView.Config) -> some View {
+        Button {
+            isDrinkModPresented = .add(config)
+        } label: {
+            Label("Add Drink - \"\(searchText)\"", systemImage: "plus")
+        }
+        .drinkModSheet(activeSheet: $isDrinkModPresented)
+    }
+    
+    private var addNewShelfButton: some View {
+        Button {
+            isShelfModPresented = .add()
+        } label: {
+            Label("Add Shelf - \"\(searchText)\"", systemImage: "plus")
+        }
+        .shelfModSheet(activeSheet: $isShelfModPresented)
+    }
+    
+    private var addNewBrandButton: some View {
+        Button {
+            isBrandModPresented = .add
+        } label: {
+            Label("Add Brand - \"\(searchText)\"", systemImage: "plus")
+        }
+        .brandModSheet(activeSheet: $isBrandModPresented)
     }
     
     // MARK: - Text Content
