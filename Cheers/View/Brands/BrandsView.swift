@@ -33,7 +33,7 @@ struct BrandsView: View {
         ToolbarSpacer(placement: .bottomBar)
         ToolbarItem(placement: .bottomBar) {
             Button {
-                activeSheet = .add
+                activeSheet = .add(.init())
             } label: {
                 Label("Add Brand", systemImage: "plus")
             }

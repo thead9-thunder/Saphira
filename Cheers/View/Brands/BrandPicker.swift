@@ -16,7 +16,7 @@ struct BrandPicker: View {
 
     @Binding var selectedBrand: Brand?
 
-    @State private var activeSheet: BrandModView.Mode?
+    @State private var isBrandModPresented: BrandModView.Mode?
     @State private var searchText: String = ""
 
     var body: some View {
@@ -30,7 +30,7 @@ struct BrandPicker: View {
         .navigationTitle("Select Brand")
         .toolbar { toolbar }
         .searchable(text: $searchText)
-        .brandModSheet(activeSheet: $activeSheet) { committedBrand in
+        .brandModSheet(activeSheet: $isBrandModPresented) { committedBrand in
             select(committedBrand)
         }
     }
@@ -39,7 +39,7 @@ struct BrandPicker: View {
     private var toolbar: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Button {
-                activeSheet = .add
+                isBrandModPresented = .add(.init())
             } label: {
                 Image(systemName: "plus")
             }
@@ -65,7 +65,7 @@ struct BrandPicker: View {
             Text("Add your first brand to get started")
         } actions: {
             Button {
-                activeSheet = .add
+                isBrandModPresented = .add(.init())
             } label: {
                 Label("Add Brand", systemImage: "plus")
             }
@@ -81,6 +81,14 @@ struct BrandPicker: View {
             
             ForEach(filteredBrands, id: \.self) { brand in
                 brandOptionView(for: brand)
+            }
+            
+            if !searchText.isEmpty {
+                Button {
+                    isBrandModPresented = .add(.init(name: searchText))
+                } label: {
+                    Label("Add Brand - \"\(searchText)\"", systemImage: "plus")
+                }                
             }
         }
     }

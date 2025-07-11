@@ -174,12 +174,12 @@ struct SearchView: View {
             switch mode {
             case .all:
                 addNewDrinkButton(config: .init(name: searchText))
-                addNewShelfButton
-                addNewBrandButton
+                addNewShelfButton(config: .init(name: searchText))
+                addNewBrandButton(config: .init(name: searchText))
             case .shelf(let shelf):
                 addNewDrinkButton(config: .init(name: searchText, shelf: shelf))
             case .brands:
-                addNewBrandButton
+                addNewBrandButton(config: .init(name: searchText))
             case .brand(let brand):
                 addNewDrinkButton(config: .init(name: searchText, brand: brand))
             case .drinks:
@@ -199,18 +199,18 @@ struct SearchView: View {
         .drinkModSheet(activeSheet: $isDrinkModPresented)
     }
     
-    private var addNewShelfButton: some View {
+    private func addNewShelfButton(config: ShelfModView.Config) -> some View {
         Button {
-            isShelfModPresented = .add()
+            isShelfModPresented = .add(config)
         } label: {
             Label("Add Shelf - \"\(searchText)\"", systemImage: "plus")
         }
         .shelfModSheet(activeSheet: $isShelfModPresented)
     }
     
-    private var addNewBrandButton: some View {
+    private func addNewBrandButton(config: BrandModView.Config) -> some View {
         Button {
-            isBrandModPresented = .add
+            isBrandModPresented = .add(config)
         } label: {
             Label("Add Brand - \"\(searchText)\"", systemImage: "plus")
         }

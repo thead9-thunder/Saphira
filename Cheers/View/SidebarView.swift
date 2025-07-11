@@ -93,14 +93,14 @@ struct SidebarView: View {
             }
 
             Button {
-                isShelfModPresented = .add()
+                isShelfModPresented = .add(.init())
             } label: {
                 Label("Add Shelf", systemImage: "plus")
             }
 
             if !shelvesForCount.isEmpty {
                 Button {
-                    isDrinkModPresented = .add(DrinkModView.Config())
+                    isDrinkModPresented = .add(.init())
                 } label: {
                     Label("Add Drink", systemImage: "plus")
                 }

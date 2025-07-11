@@ -27,7 +27,7 @@ struct CabinetsView: View {
             Section {
                 if cabinet.shelves?.count ?? 0 == 0 {
                     Button {
-                        isShelfModPresented = .add(cabinet)
+                        isShelfModPresented = .add(.init(cabinet: cabinet))
                     } label: {
                         Label("Add Shelf", systemImage: "plus")
                     }

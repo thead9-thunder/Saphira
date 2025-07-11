@@ -30,8 +30,8 @@ struct BrandModView: View {
         self.onCommit = onCommit
 
         switch mode {
-        case .add:
-            _name = State(initialValue: "")
+        case .add(let config):
+            _name = State(initialValue: config.name ?? "")
         case .edit(let brand):
             _name = State(initialValue: brand.name)
         }
@@ -97,7 +97,7 @@ struct BrandModView: View {
 // MARK: - Mode
 extension BrandModView {
     enum Mode: Identifiable {
-        case add
+        case add(Config)
         case edit(Brand)
 
         var id: String {
@@ -108,6 +108,10 @@ extension BrandModView {
                 "edit"
             }
         }
+    }
+    
+    struct Config {
+        var name: String? = nil
     }
 }
 

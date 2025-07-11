@@ -28,10 +28,10 @@ struct ShelfModView: View {
         self.onCommit = onCommit
 
         switch mode {
-        case .add(let cabinet):
-            _name = State(initialValue: "")
-            _cabinet = State(initialValue: cabinet)
-            _icon = State(initialValue: cabinet?.icon ?? .sfSymbol("cup.and.saucer"))
+        case .add(let config):
+            _name = State(initialValue: config.name ?? "")
+            _cabinet = State(initialValue: config.cabinet)
+            _icon = State(initialValue: config.cabinet?.icon ?? .sfSymbol("cup.and.saucer"))
         case .edit(let shelf):
             _name = State(initialValue: shelf.name)
             _cabinet = State(initialValue: shelf.cabinet)
@@ -115,7 +115,7 @@ struct ShelfModView: View {
 // MARK: - Mode
 extension ShelfModView {
     enum Mode: Identifiable {
-        case add(Cabinet? = nil)
+        case add(Config)
         case edit(Shelf)
 
         var id: String {
@@ -126,6 +126,11 @@ extension ShelfModView {
                 "edit"
             }
         }
+    }
+    
+    struct Config {
+        var name: String?
+        var cabinet: Cabinet?
     }
 }
 
