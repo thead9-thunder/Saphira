@@ -39,6 +39,8 @@ struct CabinetModView: View {
         Form {
             Section {
                 TextField("Name", text: $name, prompt: Text("Name"))
+                    .validatedField(isValid: isNameValid, invalidNotice: .required)
+                
                 NavigationLink(destination: IconPicker(icon: $icon)) {
                     IconLabel("Icon", icon: icon)
                 }

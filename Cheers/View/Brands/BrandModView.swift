@@ -41,6 +41,7 @@ struct BrandModView: View {
         Form {
             Section {
                 TextField("Name", text: $name, prompt: Text("Name"))
+                    .validatedField(isValid: isNameValid, invalidNotice: .required)
             }
         }
         .navigationTitle(title)

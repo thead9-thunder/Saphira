@@ -12,6 +12,8 @@ import SwiftData
 struct ShelfPicker: View {
     @Query(Cabinet.alphabetical) var cabinets: [Cabinet]
     @Binding var selectedShelf: Shelf?
+    
+    @State private var isShelfModPresented: ShelfModView.Mode?
 
     var body: some View {
         HStack {
@@ -22,6 +24,14 @@ struct ShelfPicker: View {
             Menu {
                 Menu {
                     ShelvesInMenu(shelves: Shelf.notInCabinet, selectedShelf: _selectedShelf)
+                    
+                    Divider()
+                    
+                    Button {
+                        isShelfModPresented = .add(.init())
+                    } label: {
+                        Label("Add Shelf", systemImage: "plus")
+                    }
                 } label: {
                     Text("No Cabinet")
                 }
@@ -29,12 +39,23 @@ struct ShelfPicker: View {
                 ForEach(cabinets) { cabinet in
                     Menu {
                         ShelvesInMenu(shelves: Shelf.inCabinet(cabinet), selectedShelf: _selectedShelf)
+                        
+                        Divider()
+                        
+                        Button {
+                            isShelfModPresented = .add(.init(cabinet: cabinet))
+                        } label: {
+                            Label("Add Shelf", systemImage: "plus")
+                        }
                     } label: {
                         Text(cabinet.name)
                     }
                 }
             } label: {
                 Text(selectedShelf?.name ?? "Select a shelf")
+            }
+            .shelfModSheet(activeSheet: $isShelfModPresented) { newShelf in
+                selectedShelf = newShelf
             }
         }
     }

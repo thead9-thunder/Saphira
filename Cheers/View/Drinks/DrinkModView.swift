@@ -48,7 +48,10 @@ struct DrinkModView: View {
         Form {
             Section {
                 TextField("Name", text: $name, prompt: Text("Name"))
+                    .validatedField(isValid: isNameValid, invalidNotice: .required)
+                
                 BrandPickerButton(selectedBrand: $brand)
+                
                 NavigationLink(destination: IconPicker(icon: $icon)) {
                     IconLabel("Icon", icon: icon)
                 }
@@ -56,6 +59,7 @@ struct DrinkModView: View {
 
             Section {
                 ShelfPicker(selectedShelf: $shelf)
+                    .validatedField(isValid: isShelfValid, invalidNotice: .required)
             } header: {
                 Text("Organization")
             }
