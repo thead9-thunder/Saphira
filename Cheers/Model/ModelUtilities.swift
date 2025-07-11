@@ -22,7 +22,16 @@ struct ModelUtilities {
     static var inMemoryModelContainer: ModelContainer = modelContainer(isStoredInMemoryOnly: true)
 
     private static func modelContainer(isStoredInMemoryOnly: Bool) -> ModelContainer {
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: isStoredInMemoryOnly)
+        let modelConfiguration: ModelConfiguration
+        if isStoredInMemoryOnly {
+            modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+        } else {
+            modelConfiguration = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false,
+                cloudKitDatabase: .automatic
+            )
+        }
 
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
