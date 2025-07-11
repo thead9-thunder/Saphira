@@ -81,9 +81,9 @@ struct IconPicker: View {
     }
     
     var sfSymbolSections: some View {
-        ForEach(SFSymbolCategory.all) { category in
+        ForEach(IconCategory.all) { category in
             Section {
-                SFSymbolPicker(icon: icon, sfSymbolCategory: category)
+                SFSymbolPicker(icon: icon, iconCategory: category)
             } header: {
                 Text(category.name)
             }
@@ -97,7 +97,7 @@ extension UIKeyboardType {
 
 struct SFSymbolPicker: View {
     var icon: Binding<Icon>
-    let sfSymbolCategory: SFSymbolCategory
+    let iconCategory: IconCategory
     
     private let columns = [
         GridItem(.adaptive(minimum: 30), spacing: 12)
@@ -105,15 +105,15 @@ struct SFSymbolPicker: View {
     
     var body: some View {
         LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(sfSymbolCategory.sfSymbols, id: \.self) { sfSymbol in
+            ForEach(iconCategory.icons, id: \.self) { selectableIcon in
                 Button {
-                    icon.wrappedValue = .sfSymbol(sfSymbol)
+                    icon.wrappedValue = selectableIcon
                 } label: {
                     GeometryReader { geometry in
-                        IconView(icon: .sfSymbol(sfSymbol))
+                        IconView(icon: selectableIcon)
                             .font(.title2)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .selectableBackground(isSelected: isSelected(sfSymbol))
+                            .selectableBackground(isSelected: icon.wrappedValue == selectableIcon)
                     }
                     .aspectRatio(1, contentMode: .fit)
                 }
@@ -121,12 +121,5 @@ struct SFSymbolPicker: View {
             }
         }
         .padding(.horizontal)
-    }
-    
-    private func isSelected(_ sfSymbol: String) -> Bool {
-        if case .sfSymbol(let selectedSymbol) = icon.wrappedValue {
-            return selectedSymbol == sfSymbol
-        }
-        return false
     }
 }

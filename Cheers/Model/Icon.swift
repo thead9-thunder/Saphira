@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-enum Icon: Codable {
+enum Icon: Codable, Hashable {
     case emoji(String)
     case sfSymbol(String)
     case customSFSymbol(String)

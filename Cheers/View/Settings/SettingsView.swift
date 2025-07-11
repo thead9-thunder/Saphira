@@ -19,6 +19,7 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             List {
+                appSection
                 contactSection
                 legalSection
                 appStoreSection
@@ -37,6 +38,16 @@ struct SettingsView: View {
             } label: {
                 Label("Done", systemImage: "xmark")
             }
+        }
+    }
+    
+    private var appSection: some View {
+        Section {
+            NavigationLink(destination: NotificationsSettingsView()) {
+                Label("Notifications", systemImage: "app.badge")
+            }
+        } header: {
+            Text("App Settings")
         }
     }
     
